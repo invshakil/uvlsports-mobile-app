@@ -3,7 +3,9 @@
   <f7-app>
     <navbar></navbar>
     <sidemenu></sidemenu>
+
     <router-view id="page-wrap"></router-view>
+
     <a class="footer">
       Developed By Shakil
       <img
@@ -24,8 +26,11 @@ import sidemenu from "./components/menu";
 export default {
   components: {
     sidemenu,
-    navbar
+    navbar,
     // sidebar
+  },
+  data() {
+    return {};
   }
 };
 </script>
