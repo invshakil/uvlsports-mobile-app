@@ -49,7 +49,7 @@ export default {
       return imageSrc;
     },
     infiniteHandler() {
-      this.tweetLoading = true;
+      this.loading = true;
       let url = "/get-articles";
       this.$f7.preloader.show();
       this.$http
@@ -66,7 +66,7 @@ export default {
           } else {
             this.next_page_exists = 0;
           }
-          this.tweetLoading = false;
+          this.loading = false;
           this.$f7.preloader.hide();
         });
     }

@@ -180,3 +180,33 @@ body {
     }
   }
 }
+
+.card-content{
+  .title{
+    background: $orangeGradient;;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bolder;
+    font-size: 16px
+  }
+  .date{
+    background: $cornflowerBlue;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bolder;
+    font-size: 12px
+  }
+  .description{
+    img {
+      width: 100% !important
+    }
+    blockquote{
+      background-color: $cardBackground !important;
+      background-image: $greenGradient !important;
+      padding: 10px 30px;
+      width: 80%;
+      margin: 0 auto;
+      text-align: justify;
+    }
+  }
+}

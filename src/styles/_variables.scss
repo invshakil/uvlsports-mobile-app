@@ -4,3 +4,51 @@ $cardGradientColor: linear-gradient(315deg, #4c4177 0%, #2a5470 74%);
 $linkColorHover: #00b0ec;
 $breadcrumbBackground: #f44336;
 $breadcrumbColor: #fff;
+// Colours
+$success: #2fa87c;
+$successHover: #1f886c;
+$successDisabled: #0f685c;
+$info: #627aad;
+$infoHover: #027dc4;
+$infoDisabled: #5cafde;
+$background: #1a203a;
+$border: #1a202a;
+$block: #262d47;
+$form: #1e202e;
+//$text: #bfbfbf
+$text: #ccc;
+$default: #ddd;
+$link: #10b7b0;
+$lighterLink: #3399ff;
+$darkerForm: #101010;
+$widgetBackground: #313852;
+$primary: #28b6f8;
+$primaryHover: #48d6ff;
+$primaryDisabled: #0896c8;
+$danger: #cc4444;
+$buttonDisabled: #444454;
+$warning: #dddd22;
+$orangeStart: #ff6a4d;
+$orangeEnd: #ff4d6a;
+$blueStart: #3876a2;
+$blueEnd: #9500ff;
+$lightblueStart: #2ea8cf;
+$lightblueEnd: #385ea2;
+$greenStart: #008e56;
+$greenEnd: #38cfa2;
+$secondary: #373d58;
+$orangeGradient: -webkit-linear-gradient(left, $orangeStart, $orangeEnd);
+$blueGradient: -webkit-linear-gradient(left, $blueStart, $blueEnd);
+$lightblueGradient: -webkit-linear-gradient(left, $lightblueStart, $lightblueEnd);
+$greenGradient: -webkit-linear-gradient(left, $greenStart, $greenEnd);
+$transparentGradient: -webkit-linear-gradient(left, #464c64, #555b72, #464c64);
+$cornflowerBlue: #28b6f8;
+
+$customTableBorder: #414860;
+
+$toggleBtnSuccess: #07b8b1;
+$toggleBtnDanger: #ff4c6a;
+
+$modalBackground: rgb(41, 49, 78);
+$modalColor: #10B7B0;
+$defaultFont: "Roboto", sans-serif;

@@ -1,23 +1,21 @@
 
 <template>
-  <f7-page>
+  <f7-page v-if="data">
     <p id="breadcrumb">
       <a @click="$router.go(-1)">Home</a>
-      <a href>Article Title 1</a>
+      <a href>{{ data && data.title.length > 33 ? data.title.substr(0, 30) + '...' : data.title }}</a>
     </p>
 
     <f7-card class="demo-card-header-pic">
       <f7-card-header class="no-border" valign="bottom">
-        <img src="https://cdn.framework7.io/placeholder/nature-1000x700-8.jpg" width="100%" />
+        <img :src="data.full_image" width="100%" />
       </f7-card-header>
       <f7-card-content>
-        <b>Article Title</b>
-        <p class="date">Posted on January 21, 2018</p>
-        <p class="date">Author: SHakil</p>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente porro, eveniet quasi, facilis, laborum consequatur reprehenderit quis earum fugit veritatis dignissimos asperiores!
-          Ipsa aperiam quam molestiae dolor molestias tenetur veniam?
-        </p>
+        <b class="title">{{ data.title }}</b>
+        <p class="date">প্রকাশিত হয়েছে: {{ data.time_format }}</p>
+        <p class="date">লেখক: {{ data.author.name }}</p>
+        <p class="date">ক্যাটাগরি: {{ data.categories }}</p>
+        <div class="description" v-html="data.description"></div>
       </f7-card-content>
     </f7-card>
   </f7-page>
@@ -25,10 +23,25 @@
 <script>
 export default {
   components: {},
+  data() {
+    return {
+      data: null
+    };
+  },
   mounted() {
     setTimeout(() => {
-      this.$utils.showLoader(1, this);
+      this.getArticleInfo();
     }, 50);
+  },
+  methods: {
+    getArticleInfo() {
+      let url = "/get-article-details/" + this.$route.params.id;
+      this.$f7.preloader.show();
+      this.$http.get(url).then(({ data }) => {
+        this.data = data;
+        this.$f7.preloader.hide();
+      });
+    }
   }
 };
 </script>
