@@ -21,7 +21,7 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/article-details',
+    path: '/article-details/:id',
     component: ArticleDetails,
   },
   {
@@ -47,7 +47,7 @@ const routes = [
   },
 ]
 
-axios.defaults.baseURL = 'http://uvlsports.com/api';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 Vue.config.productionTip = false
 

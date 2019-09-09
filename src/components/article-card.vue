@@ -2,19 +2,17 @@
   <div scrollable>
     <f7-card class="demo-card-header-pic">
       <f7-card-header class="no-border" valign="bottom">
-        <img
-          @click="visitArticlePage"
-          src="https://cdn.framework7.io/placeholder/nature-1000x700-8.jpg"
-          width="100%"
-        />
+        <img @click="visitArticlePage" :src="data.medium_image" width="100%" />
       </f7-card-header>
       <f7-card-content>
-        <b @click="visitArticlePage">Article Title {{ n }}</b>
-        <p class="date">Posted on January 21, 2018</p>
-        <p>{{ description }}</p>
+        <b @click="visitArticlePage">{{ data.title }}</b>
+        <p class="date">{{ data.time_format }}</p>
+        <p
+          v-html="data.description.length > 100 ? data.description.substr(0, 100) + '....' : data.description"
+        ></p>
       </f7-card-content>
       <f7-card-footer>
-        <div class="demo-facebook-name">Shakil</div>
+        <div class="demo-facebook-name">{{ data.author.name }}</div>
         <div class="demo-facebook-date">
           <f7-link @click="visitArticlePage">Read More...</f7-link>
         </div>
@@ -26,24 +24,18 @@
 <script>
 export default {
   props: {
-    n: {
-      type: Number
-    },
-    description: {
-      required: false,
-      default:
-        "Quisque eget vestibulum nulla. Quisque quis dui quis ex ultricies efficitur vitae non felis. Phasellus quis nibh hendrerit..."
+    data: {
+      required: true
     }
   },
   mounted() {},
   methods: {
     visitArticlePage() {
-      return this.$router.push("/article-details");
+      return this.$router.push("/article-details/" + this.data.id);
     }
   }
 };
 </script>
 
 <style lang="css" scoped>
-
 </style>
