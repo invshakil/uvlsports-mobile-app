@@ -50,7 +50,15 @@
     text-align: justify;
   }
 }
-
+.md .notification {
+  .notification-title {
+    color: $breadcrumbBackground !important;
+    font-weight: bolder !important;
+  }
+  .notification-text {
+    color: #fff;
+  }
+}
 a.footer {
   position: absolute;
   background-image: $themeBackground;
@@ -78,7 +86,8 @@ a.footer {
 
 .card,
 .media-item,
-.md .dialog {
+.md .dialog,
+.md .notification {
   background-color: $cardBackground !important;
   background-image: $cardGradientColor !important;
 }

@@ -7,8 +7,10 @@
         label="Username"
         type="text"
         placeholder="Your username"
-        :value="username"
-        @input="username = $event.target.value"
+        :value="email"
+        @input="email = $event.target.value"
+        :class="{'has-error': errors.email.length > 0}"
+        @change="checkValidation('email')"
       ></f7-list-input>
       <f7-list-input
         label="Password"
@@ -16,10 +18,11 @@
         placeholder="Your password"
         :value="password"
         @input="password = $event.target.value"
+        @change="checkValidation('password')"
       ></f7-list-input>
     </f7-list>
     <f7-list>
-      <f7-button fill color="red" @click="signIn" style="width: 100px; margin: 0 auto;">Sign-In</f7-button>
+      <f7-button fill color="red" @click="login" style="width: 100px; margin: 0 auto;">Sign-In</f7-button>
       <f7-block-footer>We collect information you provide to us directly when you use our app.</f7-block-footer>
     </f7-list>
   </f7-page>
@@ -29,15 +32,16 @@
 export default {
   data() {
     return {
-      username: "",
-      password: ""
+      email: "",
+      password: "",
+      errors: {
+        email: [],
+        password: []
+      },
+      error: false
     };
   },
-  mounted() {
-    setTimeout(() => {
-      this.$utils.showLoader(1, this);
-    }, 50);
-  },
+  mounted() {},
   methods: {
     signIn() {
       const self = this;
@@ -48,6 +52,94 @@ export default {
           this.$router.push("/");
         }
       );
+    },
+    checkValidation(input = false) {
+      if (input === "email" || !input) {
+        if (this.email === "") {
+          let obj = {
+            title: "Validation Error",
+            text: "Please enter your email"
+          };
+          this.errors.email.push(obj.text);
+          this.$utils.showMessage(obj, this, 2);
+        } else if (this.validateEmail(this.email) === false) {
+          let obj = {
+            title: "Validation Error",
+            text: "Please enter valid email address."
+          };
+          this.errors.email.push(obj.text);
+          this.$utils.showMessage(obj, this, 2);
+        } else {
+          this.errors.email = [];
+        }
+      }
+      if (input === "password" || !input) {
+        if (this.password === "") {
+          let obj = {
+            title: "Validation Error",
+            text: "Please enter your password."
+          };
+          this.errors.email.push(obj.text);
+          this.$utils.showMessage(obj, this, 2);
+        } else {
+          this.errors.password = [];
+        }
+      }
+
+      if (this.errors.email.length === 0 && this.errors.password.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    validateEmail(mail) {
+      if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+        return true;
+      }
+      return false;
+    },
+
+    login() {
+      var app = this;
+      if (this.checkValidation(false)) {
+        let data = {
+          email: app.email,
+          password: app.password
+        };
+        this.$f7.preloader.show();
+        this.$auth.login({
+          params: data,
+          success: function() {
+            // console.log(response);
+            this.$f7.preloader.hide();
+            let obj = {
+              title: "Success!",
+              text: "Loging in..."
+            };
+            this.$utils.showMessage(obj, this);
+            this.$router.navigate("/");
+          },
+          error: function(error) {
+            if (error.response) {
+              if (error.response.status === 401) {
+                let obj = {
+                  title: "Login Failed!",
+                  text: error.response.data.msg
+                };
+                this.$utils.showMessage(obj, this, 3);
+              }
+            }
+            this.$f7.preloader.hide();
+            // else if (error.request) {
+            //   console.log(error.request);
+            // } else {
+            //   console.log("Error", error.message);
+            // }
+          },
+          rememberMe: true
+        });
+      }
     }
   }
 };

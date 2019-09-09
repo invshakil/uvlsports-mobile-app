@@ -9,11 +9,11 @@
       @click="$route.path !== '/tweets' ? $router.push('/tweets') : null"
     >Tweets</a>
     <a
+      v-if="!$auth.check()"
       :class="{'active': $route.path === '/login'}"
       @click="$route.path !== '/login' ? $router.push('/login') : null"
     >Login</a>
-
-    
+    <a v-if="$auth.check()" @click="$auth.logout()">Logout</a>
   </Slide>
 </template>
 
@@ -24,11 +24,7 @@ export default {
   components: {
     Slide // Register your component
   },
-  methods: {
-    navigate() {
-      alert(true);
-    }
-  }
+  methods: {}
 };
 </script>
 
