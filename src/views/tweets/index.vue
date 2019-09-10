@@ -8,7 +8,7 @@
       <f7-list media-list>
         <tweet-block v-for="(tweet, index) in results" :data="tweet" :key="index"></tweet-block>
       </f7-list>
-      <div v-if="firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
+      <div v-if="!firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
         <f7-button
           color="red"
           outline
@@ -58,7 +58,6 @@ export default {
       return imageSrc;
     },
     infiniteHandler() {
-      this.firstLoad = false;
       this.loading = true;
       this.offline = false;
       let url = "/get-more-tweets";
@@ -77,7 +76,8 @@ export default {
           } else {
             this.next_page_exists = 0;
           }
-          this.tweetLoading = false;
+          this.firstLoad = false;
+          this.loading = false;
           this.$f7.preloader.hide();
         })
         .catch(error => {

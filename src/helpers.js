@@ -14,5 +14,11 @@ export default {
             text: obj.text,
             closeTimeout: seconds * 1000
         }).open();
-    }
+    },
+
+    timeDiffInMinutes(milliseconds) {
+        let timeDiff = ((new Date).getTime() - milliseconds) / (1000 * 60);
+        return parseInt(timeDiff)
+    },
+
 }

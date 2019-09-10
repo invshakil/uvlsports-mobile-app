@@ -8,7 +8,7 @@
       :key="index"
     ></article-card>
 
-    <div v-if="firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
+    <div v-if="!firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
       <f7-button
         color="red"
         outline
@@ -24,6 +24,7 @@
 <script>
 import ArticleCard from "../components/article-card";
 import OfflineCard from "../components/offline-card";
+import { setTimeout } from "timers";
 
 export default {
   components: {
@@ -43,7 +44,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.infiniteHandler();
+      this.get();
     }, 50);
   },
   methods: {
@@ -55,12 +56,28 @@ export default {
       }
       return imageSrc;
     },
-    infiniteHandler() {
-      this.firstLoad = false;
+    get() {
+      let articles = this.$ls.get("articles");
+      if (articles === null) {
+        this.infiniteHandler();
+      } else {
+        let lastTime = this.$ls.get("article_last_time");
+        let diff = this.$utils.timeDiffInMinutes(lastTime);
+        if (diff > 10) {
+          this.infiniteHandler();
+        } else {
+          articles = JSON.parse(articles);
+          this.results = articles;
+        }
+        this.firstLoad = false;
+      }
+    },
+
+    async infiniteHandler() {
+      this.$f7.preloader.show();
       this.loading = true;
       this.offline = false;
       let url = "/get-articles";
-      this.$f7.preloader.show();
       this.$http
         .get(url, {
           params: {
@@ -72,9 +89,12 @@ export default {
           if (data.length) {
             this.page += 1;
             this.results.push(...data);
+
+            this.saveArticlesInLocalStorage();
           } else {
             this.next_page_exists = 0;
           }
+          this.firstLoad = false;
           this.loading = false;
           this.$f7.preloader.hide();
         })
@@ -90,6 +110,24 @@ export default {
           }
           this.$f7.preloader.hide();
         });
+    },
+
+    saveArticlesInLocalStorage() {
+      let time = this.$ls.get("article_last_time");
+      let articles = this.$ls.get("articles");
+      if (time === null) {
+        this.$ls.set("article_last_time", new Date().getTime());
+      }
+      if (articles === null) {
+        this.$ls.set("articles", JSON.stringify(this.results));
+      } else {
+        articles = JSON.parse(articles);
+        console.log(articles.length, this.results.length);
+        if (articles.length !== this.results.length) {
+          this.$ls.set("articles", JSON.stringify(this.results));
+          this.$ls.set("article_last_time", new Date().getTime());
+        }
+      }
     }
   }
 };

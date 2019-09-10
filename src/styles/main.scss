@@ -212,6 +212,7 @@ body {
   .description {
     img {
       width: 100% !important;
+      height: auto !important;
     }
     blockquote {
       background-color: $cardBackground !important;
