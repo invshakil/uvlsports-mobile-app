@@ -30,17 +30,35 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.getArticleInfo();
+      this.get();
     }, 50);
   },
   methods: {
+    get() {
+      let aDetails = this.$ls.get("article_details" + this.$route.params.id);
+      if (aDetails === null) {
+        this.getArticleInfo();
+      } else {
+        this.data = JSON.parse(aDetails);
+      }
+    },
     getArticleInfo() {
       let url = "/get-article-details/" + this.$route.params.id;
       this.$f7.preloader.show();
       this.$http.get(url).then(({ data }) => {
         this.data = data;
         this.$f7.preloader.hide();
+        this.saveArticleDetailsInLocalStorage();
       });
+    },
+    saveArticleDetailsInLocalStorage() {
+      let aDetails = this.$ls.get("article_details" + this.$route.params.id);
+      if (aDetails === null) {
+        this.$ls.set(
+          "article_details" + this.$route.params.id,
+          JSON.stringify(this.data)
+        );
+      }
     }
   }
 };

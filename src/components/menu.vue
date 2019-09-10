@@ -3,17 +3,28 @@
     <a
       :class="{'active': $route.path === '/'}"
       @click="$route.path !== '/' ? $router.push('/') : null"
-    >Home</a>
+    >
+      <f7-icon fa="home"></f7-icon>Home
+    </a>
     <a
       :class="{'active': $route.path === '/tweets'}"
       @click="$route.path !== '/tweets' ? $router.push('/tweets') : null"
-    >Tweets</a>
+    >
+      <f7-icon fa="comment"></f7-icon>Tweets
+    </a>
+    <a :class="{'active': $route.path === '/tweets'}" @click="clearCache()">
+      <f7-icon fa="refresh"></f7-icon>Clear Cache
+    </a>
     <a
       v-if="!$auth.check()"
       :class="{'active': $route.path === '/login'}"
       @click="$route.path !== '/login' ? $router.push('/login') : null"
-    >Login</a>
-    <a v-if="$auth.check()" @click="$auth.logout()">Logout</a>
+    >
+      <f7-icon fa="sign-in-alt"></f7-icon>Login
+    </a>
+    <a v-if="$auth.check()" @click="$auth.logout()">
+      <f7-icon fa="sign-out-alt"></f7-icon>Logout
+    </a>
   </Slide>
 </template>
 
@@ -24,7 +35,16 @@ export default {
   components: {
     Slide // Register your component
   },
-  methods: {}
+  methods: {
+    clearCache() {
+      localStorage.clear();
+      let obj = {
+        title: "Success!",
+        text: "Cache Cleared..."
+      };
+      this.$utils.showMessage(obj, this);
+    }
+  }
 };
 </script>
 
