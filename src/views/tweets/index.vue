@@ -37,7 +37,7 @@ export default {
       page: 0,
       set: 10,
       results: [],
-      next_page_exists: 1,
+      nextPageExist: 1,
       loading: false,
       firstLoad: true,
       offline: false
@@ -45,7 +45,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.infiniteHandler();
+      this.get();
     }, 50);
   },
   methods: {
@@ -56,6 +56,22 @@ export default {
         return baseUrl + "/" + "image_upload/system_logo.png";
       }
       return imageSrc;
+    },
+    get() {
+      let tweets = this.$ls.get("tweets");
+      if (tweets === null) {
+        this.infiniteHandler();
+      } else {
+        let lastTime = this.$ls.get("tweet_last_time");
+        let diff = this.$utils.timeDiffInMinutes(lastTime);
+        if (diff > 10) {
+          this.infiniteHandler();
+        } else {
+          tweets = JSON.parse(tweets);
+          this.results = tweets;
+        }
+        this.firstLoad = false;
+      }
     },
     infiniteHandler() {
       this.loading = true;
@@ -74,11 +90,12 @@ export default {
             this.page += 1;
             this.results.push(...data);
           } else {
-            this.next_page_exists = 0;
+            this.nextPageExist = 0;
           }
           this.firstLoad = false;
           this.loading = false;
           this.$f7.preloader.hide();
+          this.saveTweetsInLocalStorage();
         })
         .catch(error => {
           if (!error.response) {
@@ -92,6 +109,24 @@ export default {
           }
           this.$f7.preloader.hide();
         });
+    },
+    saveTweetsInLocalStorage() {
+      let time = this.$ls.get("tweet_last_time");
+      let articles = this.$ls.get("tweets");
+      if (time === null) {
+        this.$ls.set("tweet_last_time", new Date().getTime());
+      }
+      if (articles === null) {
+        this.$ls.set("tweets", JSON.stringify(this.results));
+      } else {
+        articles = JSON.parse(articles);
+        if (articles.length !== this.results.length) {
+          this.$ls.remove("tweets");
+          this.$ls.remove("tweet_last_time");
+          this.$ls.set("tweets", JSON.stringify(this.results));
+          this.$ls.set("tweet_last_time", new Date().getTime());
+        }
+      }
     }
   }
 };

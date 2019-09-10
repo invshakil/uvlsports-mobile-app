@@ -36,7 +36,7 @@ export default {
       page: 0,
       set: 10,
       results: [],
-      next_page_exists: 1,
+      nextPageExist: 1,
       loading: false,
       firstLoad: true,
       offline: false
@@ -89,14 +89,13 @@ export default {
           if (data.length) {
             this.page += 1;
             this.results.push(...data);
-
-            this.saveArticlesInLocalStorage();
           } else {
-            this.next_page_exists = 0;
+            this.nextPageExist = 0;
           }
           this.firstLoad = false;
           this.loading = false;
           this.$f7.preloader.hide();
+          this.saveArticlesInLocalStorage();
         })
         .catch(error => {
           if (!error.response) {
@@ -122,8 +121,9 @@ export default {
         this.$ls.set("articles", JSON.stringify(this.results));
       } else {
         articles = JSON.parse(articles);
-        console.log(articles.length, this.results.length);
         if (articles.length !== this.results.length) {
+          this.$ls.remove("articles");
+          this.$ls.remove("article_last_time");
           this.$ls.set("articles", JSON.stringify(this.results));
           this.$ls.set("article_last_time", new Date().getTime());
         }
