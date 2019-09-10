@@ -45,11 +45,27 @@ export default {
     getArticleInfo() {
       let url = "/get-article-details/" + this.$route.params.id;
       this.$f7.preloader.show();
-      this.$http.get(url).then(({ data }) => {
-        this.data = data;
-        this.$f7.preloader.hide();
-        this.saveArticleDetailsInLocalStorage();
-      });
+      this.$http
+        .get(url)
+        .then(({ data }) => {
+          this.data = data;
+          this.$f7.preloader.hide();
+          this.saveArticleDetailsInLocalStorage();
+        })
+        .catch(error => {
+          if (!error.response) {
+            // network error
+            let obj = {
+              title: "Network Error!",
+              text: "Your device seems to be in offline"
+            };
+            this.$utils.showMessage(obj, this, 5);
+            if (this.data == null) {
+              this.offline = true;
+            }
+          }
+          this.$f7.preloader.hide();
+        });
     },
     saveArticleDetailsInLocalStorage() {
       let aDetails = this.$ls.get("article_details" + this.$route.params.id);

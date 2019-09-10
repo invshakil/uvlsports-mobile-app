@@ -105,7 +105,9 @@ export default {
               text: "Your device seems to be in offline"
             };
             this.$utils.showMessage(obj, this, 5);
-            this.offline = true;
+            if (this.results.length === 0) {
+              this.offline = true;
+            }
           }
           this.$f7.preloader.hide();
         });
