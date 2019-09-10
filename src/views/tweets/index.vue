@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%">
-    <f7-page>
+    <f7-page v-if="!offline">
       <p id="breadcrumb">
         <a @click="$router.go(-1)">Home</a>
         <a href>Tweets</a>
@@ -8,14 +8,17 @@
       <f7-list media-list>
         <tweet-block v-for="(tweet, index) in results" :data="tweet" :key="index"></tweet-block>
       </f7-list>
-      <div style="width: 100%; text-align: center; margin-bottom: 10px">
+      <div v-if="firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
         <f7-button
           color="red"
           outline
           @click="infiniteHandler()"
           style="width: 200px; margin: 0 auto;"
-        >{{ tweetLoading ? 'Loading...' : 'Load more tweets'}}</f7-button>
+        >{{ loading ? 'Loading...' : 'Load more tweets'}}</f7-button>
       </div>
+    </f7-page>
+    <f7-page v-else>
+      <offline-card></offline-card>
     </f7-page>
   </div>
 </template>
@@ -23,10 +26,11 @@
 <script>
 import TweetBlock from "@/components/tweet-block";
 import { setTimeout } from "timers";
-
+import OfflineCard from "../../components/offline-card";
 export default {
   components: {
-    TweetBlock
+    TweetBlock,
+    OfflineCard
   },
   data() {
     return {
@@ -34,7 +38,9 @@ export default {
       set: 10,
       results: [],
       next_page_exists: 1,
-      tweetLoading: false
+      loading: false,
+      firstLoad: true,
+      offline: false
     };
   },
   mounted() {
@@ -52,7 +58,9 @@ export default {
       return imageSrc;
     },
     infiniteHandler() {
-      this.tweetLoading = true;
+      this.firstLoad = false;
+      this.loading = true;
+      this.offline = false;
       let url = "/get-more-tweets";
       this.$f7.preloader.show();
       this.$http
@@ -70,6 +78,18 @@ export default {
             this.next_page_exists = 0;
           }
           this.tweetLoading = false;
+          this.$f7.preloader.hide();
+        })
+        .catch(error => {
+          if (!error.response) {
+            // network error
+            let obj = {
+              title: "Network Error!",
+              text: "Your device seems to be in offline"
+            };
+            this.$utils.showMessage(obj, this, 5);
+            this.offline = true;
+          }
           this.$f7.preloader.hide();
         });
     }

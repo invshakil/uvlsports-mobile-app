@@ -1,7 +1,6 @@
 <template>
-  <f7-page>
-    <!-- <f7-navbar title="Home"></f7-navbar> -->
-    <f7-block-title>Latest Articles</f7-block-title>
+  <f7-page v-if="!offline">
+    <f7-block-title v-if="firstLoad">Latest Articles</f7-block-title>
     <article-card
       :header="article.title"
       v-for="(article, index) in results"
@@ -9,7 +8,7 @@
       :key="index"
     ></article-card>
 
-    <div style="width: 100%; text-align: center; margin-bottom: 10px">
+    <div v-if="firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
       <f7-button
         color="red"
         outline
@@ -18,12 +17,18 @@
       >{{ loading ? 'Loading...' : 'Load more articles'}}</f7-button>
     </div>
   </f7-page>
+  <f7-page v-else>
+    <offline-card></offline-card>
+  </f7-page>
 </template>
 <script>
 import ArticleCard from "../components/article-card";
+import OfflineCard from "../components/offline-card";
+
 export default {
   components: {
-    ArticleCard
+    ArticleCard,
+    OfflineCard
   },
   data() {
     return {
@@ -31,7 +36,9 @@ export default {
       set: 10,
       results: [],
       next_page_exists: 1,
-      loading: false
+      loading: false,
+      firstLoad: true,
+      offline: false
     };
   },
   mounted() {
@@ -49,7 +56,9 @@ export default {
       return imageSrc;
     },
     infiniteHandler() {
+      this.firstLoad = false;
       this.loading = true;
+      this.offline = false;
       let url = "/get-articles";
       this.$f7.preloader.show();
       this.$http
@@ -67,6 +76,18 @@ export default {
             this.next_page_exists = 0;
           }
           this.loading = false;
+          this.$f7.preloader.hide();
+        })
+        .catch(error => {
+          if (!error.response) {
+            // network error
+            let obj = {
+              title: "Network Error!",
+              text: "Your device seems to be in offline"
+            };
+            this.$utils.showMessage(obj, this, 5);
+            this.offline = true;
+          }
           this.$f7.preloader.hide();
         });
     }

@@ -1,26 +1,6 @@
 <template>
   <f7-page>
     <f7-navbar title="Skeleton"></f7-navbar>
-
-    <f7-block-title>Skeleton List</f7-block-title>
-    <f7-list media-list class="skeleton-text">
-      <f7-list-item
-        title="Title"
-        subtitle="Subtitle"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-      >
-        <f7-skeleton-block style="width: 40px; height: 40px; border-radius: 50%" slot="media"></f7-skeleton-block>
-      </f7-list-item>
-      <f7-list-item
-        title="Title"
-        subtitle="Subtitle"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis et massa ac interdum."
-      >
-        <f7-skeleton-block style="width: 40px; height: 40px; border-radius: 50%" slot="media"></f7-skeleton-block>
-      </f7-list-item>
-    </f7-list>
-
-    <f7-block-title>Skeleton Card</f7-block-title>
     <f7-card
       class="skeleton-text"
       title="Card Header"

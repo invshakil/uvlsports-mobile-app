@@ -6,7 +6,7 @@
 
     <router-view id="page-wrap"></router-view>
 
-    <a class="footer">
+    <a class="footer" href="https://sshakil.com" target="_blank">
       Developed By Shakil
       <img
         src="./assets/copyright.png"

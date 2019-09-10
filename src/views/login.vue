@@ -1,5 +1,5 @@
 <template>
-  <f7-page login-screen>
+  <f7-page v-if="!offline" login-screen>
     <f7-navbar title="Login In" back-link="Back"></f7-navbar>
     <f7-block-title>Login in to your account</f7-block-title>
     <f7-list form>
@@ -26,10 +26,18 @@
       <f7-block-footer>We collect information you provide to us directly when you use our app.</f7-block-footer>
     </f7-list>
   </f7-page>
+  <f7-page v-else>
+    <offline-card></offline-card>
+  </f7-page>
 </template>
 
 <script>
+import OfflineCard from "../components/offline-card";
+
 export default {
+  components: {
+    OfflineCard
+  },
   data() {
     return {
       email: "",
@@ -38,7 +46,8 @@ export default {
         email: [],
         password: []
       },
-      error: false
+      error: false,
+      offline: false
     };
   },
   mounted() {},
@@ -101,6 +110,7 @@ export default {
     },
 
     login() {
+      this.offline = false;
       var app = this;
       if (this.checkValidation(false)) {
         let data = {
@@ -129,6 +139,13 @@ export default {
                 };
                 this.$utils.showMessage(obj, this, 3);
               }
+            } else {
+              let obj = {
+                title: "Network Error!",
+                text: "Your device seems to be in offline"
+              };
+              this.$utils.showMessage(obj, this, 5);
+              this.offline = true;
             }
             this.$f7.preloader.hide();
             // else if (error.request) {

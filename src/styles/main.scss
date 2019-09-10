@@ -75,6 +75,7 @@ a.footer {
 .text-center {
   display: block !important;
   margin: 0 auto !important;
+  text-align: center;
 }
 
 .article-block {
@@ -92,6 +93,8 @@ a.footer {
 }
 .card-header img {
   padding-top: 10px;
+  margin: 0 auto;
+  max-height: 160px;
 }
 
 .pull-right {
@@ -181,26 +184,36 @@ body {
   }
 }
 
-.card-content{
-  .title{
-    background: $orangeGradient;;
+.card {
+  .title {
+    background: $orangeGradient;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: bolder;
-    font-size: 16px
+    font-size: 16px;
   }
-  .date{
+}
+
+.card-content {
+  .title {
+    background: $orangeGradient;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bolder;
+    font-size: 16px;
+  }
+  .date {
     background: $cornflowerBlue;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: bolder;
-    font-size: 12px
+    font-size: 12px;
   }
-  .description{
+  .description {
     img {
-      width: 100% !important
+      width: 100% !important;
     }
-    blockquote{
+    blockquote {
       background-color: $cardBackground !important;
       background-image: $greenGradient !important;
       padding: 10px 30px;
