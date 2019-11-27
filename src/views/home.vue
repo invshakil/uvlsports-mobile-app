@@ -1,6 +1,6 @@
 <template>
   <f7-page v-if="!offline">
-    <f7-block-title v-if="firstLoad">Latest Articles</f7-block-title>
+    <f7-block-title>Latest Articles</f7-block-title>
     <article-card
       :header="article.title"
       v-for="(article, index) in results"
@@ -89,10 +89,10 @@ export default {
           if (data.length) {
             this.page += 1;
             this.results.push(...data);
+            this.firstLoad = false;
           } else {
             this.nextPageExist = 0;
           }
-          this.firstLoad = false;
           this.loading = false;
           this.$f7.preloader.hide();
           this.saveArticlesInLocalStorage();

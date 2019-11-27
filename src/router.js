@@ -1,15 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import axios from 'axios';
+import Vue from 'vue';
+import VueAxios from 'vue-axios';
+import VueRouter from 'vue-router';
+import NotFoundPage from './views/pages/not-found.vue';
 import HomePage from './views/home.vue';
+import LoginPage from './views/login.vue';
 import ArticleDetails from './views/posts/_id/index.vue';
 import TweetsPage from './views/tweets/index.vue';
-import LoginPage from './views/login.vue';
-import AboutPage from './pages/about.vue';
-import DynamicRoutePage from './pages/dynamic-route.vue';
-import NotFoundPage from './pages/not-found.vue';
 
-import axios from 'axios';
-import VueAxios from 'vue-axios';
 
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios);
@@ -32,14 +30,6 @@ const routes = [
   {
     path: '/login',
     component: LoginPage,
-  },
-  {
-    path: '/about/',
-    component: AboutPage,
-  },
-  {
-    path: '/dynamic-route/blog/:blogId/post/:postId/',
-    component: DynamicRoutePage,
   },
   {
     path: '*',
@@ -65,7 +55,7 @@ Vue.use(require('@websanova/vue-auth'), {
   authRedirect: '/login',
   tokenDefaultName: 'uvlsports-auth',
   tokenStore: ['localStorage'],
-  loginData: { url: 'auth/login', method: 'post', redirect: '/home', fetchUser: true },
+  loginData: { url: 'auth/login', method: 'post', redirect: '/', fetchUser: true },
   logoutData: { url: 'auth/logout', method: 'post', redirect: '/', makeRequest: true },
   fetchData: { url: 'auth/user', method: 'get', enable: true },
   refreshData: { url: 'auth/refresh', method: 'get', enable: false, interval: 30 },

@@ -129,7 +129,7 @@ export default {
               text: "Loging in..."
             };
             vm.$utils.showMessage(obj, vm);
-            vm.$router.push("/");
+            //vm.$router.push({name: 'home'});
           },
           error: function(error) {
             if (error.response) {

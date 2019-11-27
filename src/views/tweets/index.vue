@@ -89,10 +89,10 @@ export default {
           if (data.length) {
             this.page += 1;
             this.results.push(...data);
+            this.firstLoad = false;
           } else {
             this.nextPageExist = 0;
           }
-          this.firstLoad = false;
           this.loading = false;
           this.$f7.preloader.hide();
           this.saveTweetsInLocalStorage();
