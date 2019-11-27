@@ -68,7 +68,7 @@ Vue.use(require('@websanova/vue-auth'), {
   loginData: { url: 'auth/login', method: 'post', redirect: '/home', fetchUser: true },
   logoutData: { url: 'auth/logout', method: 'post', redirect: '/', makeRequest: true },
   fetchData: { url: 'auth/user', method: 'get', enable: true },
-  refreshData: { url: 'auth/refresh', method: 'get', enable: true, interval: 30 },
+  refreshData: { url: 'auth/refresh', method: 'get', enable: false, interval: 30 },
 });
 
 export default router

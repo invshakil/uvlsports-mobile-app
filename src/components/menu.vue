@@ -12,7 +12,7 @@
     >
       <f7-icon fa="comment"></f7-icon>Tweets
     </a>
-    <a :class="{'active': $route.path === '/tweets'}" @click="clearCache()">
+    <a @click="clearCache()">
       <f7-icon fa="refresh"></f7-icon>Clear Cache
     </a>
     <a

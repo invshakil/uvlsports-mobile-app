@@ -118,17 +118,18 @@ export default {
           password: app.password
         };
         this.$f7.preloader.show();
+        let vm = this;
         this.$auth.login({
           params: data,
           success: function() {
             // console.log(response);
-            this.$f7.preloader.hide();
+            vm.$f7.preloader.hide();
             let obj = {
               title: "Success!",
               text: "Loging in..."
             };
-            this.$utils.showMessage(obj, this);
-            this.$router.navigate("/");
+            vm.$utils.showMessage(obj, vm);
+            vm.$router.push("/");
           },
           error: function(error) {
             if (error.response) {

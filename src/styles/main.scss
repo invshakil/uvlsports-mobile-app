@@ -2,11 +2,33 @@
 .md .color-theme-red .navbar,
 .md .color-theme-red.navbar {
   background-image: $themeBackground;
-  background: transparent;
+  background: transparent;  
 }
+
 .bm-menu {
-  background-color: #0cbaba;
-  background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+      background-color: #0cbaba;
+      background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+      top: auto;
+    
+      .bm-item-list {
+        background: #47525d !important;
+        border-right: none !important;
+        border-left: none !important;
+      
+        a {
+          color: #fff !important;
+        }
+      
+        .active {
+          background-color: #7f5a83 !important;
+        }
+      }
+      .bm-item-list > * {
+        padding: 10px !important;
+      }
+      .bm-item-list a:hover {
+        cursor: pointer !important;
+      }
 }
 
 .bm-burger-button {
@@ -23,25 +45,6 @@
   margin-left: 0 !important;
 }
 
-.bm-item-list {
-  background: #47525d !important;
-  border-right: none !important;
-  border-left: none !important;
-
-  a {
-    color: #fff !important;
-  }
-
-  .active {
-    background-color: #7f5a83 !important;
-  }
-}
-.bm-item-list > * {
-  padding: 10px !important;
-}
-.bm-item-list a:hover {
-  cursor: pointer !important;
-}
 
 .md .dialog {
   .dialog-title,
