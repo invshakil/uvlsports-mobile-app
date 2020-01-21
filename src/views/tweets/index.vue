@@ -6,7 +6,7 @@
         <a href>Tweets</a>
       </p>
       <f7-list media-list>
-        <tweet-block v-for="(tweet, index) in results" :data="tweet" :key="index"></tweet-block>
+        <tweet-block v-for="(tweet, index) in results" :data="tweet" :key="index"/>
       </f7-list>
       <div v-if="!firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
         <f7-button
@@ -18,7 +18,7 @@
       </div>
     </f7-page>
     <f7-page v-else>
-      <offline-card></offline-card>
+      <offline-card/>
     </f7-page>
   </div>
 </template>

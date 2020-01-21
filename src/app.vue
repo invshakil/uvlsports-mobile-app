@@ -1,10 +1,10 @@
 <template>
   <!-- App -->
   <f7-app>
-    <navbar></navbar>
-    <sidemenu></sidemenu>
-    <router-view id="page-wrap"></router-view>
-    <cfooter></cfooter>
+    <navbar/>
+    <sidemenu/>
+    <router-view id="page-wrap"/>
+    <cfooter/>
   </f7-app>
 </template>
 

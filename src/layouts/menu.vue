@@ -22,6 +22,11 @@
     >
       <f7-icon fa="sign-in-alt"></f7-icon>Login
     </a>
+    <a v-if="$auth.check() && $auth.user().isAllowed" 
+    :class="{'active': $route.path === '/create-tweet'}"
+    @click="$router.push('/create-tweet')">
+      <f7-icon fa="sign-out-alt"></f7-icon>Create Tweet
+    </a>
     <a v-if="$auth.check()" @click="$auth.logout()">
       <f7-icon fa="sign-out-alt"></f7-icon>Logout
     </a>
@@ -29,11 +34,12 @@
 </template>
 
 <script>
-import { Slide } from "vue-burger-menu"; // import the CSS transitions you wish to use, in this case we are using `Slide`
-
+import { Slide } from "vue-burger-menu";
 export default {
   components: {
-    Slide // Register your component
+    Slide
+  },
+  mounted(){
   },
   methods: {
     clearCache() {

@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "uvlsports-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -30,7 +30,7 @@
     "framework7-icons": "^0.9.1",
     "framework7-vue": "^3.4.3",
     "material-design-icons": "^3.0.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "vue": "^2.6.10",
     "vue-burger-menu": "^2.0.2",
     "vuex": "^3.0.1"
