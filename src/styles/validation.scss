@@ -1,0 +1,25 @@
+.has-error {
+  .input-with-value, .item-label {
+    color: $danger !important;
+  }
+
+  .input-with-value {
+    border-bottom: 1px solid $danger !important;
+  }
+}
+
+.validation-error-message {
+  color: $danger;
+
+  .item-media {
+    min-width: auto !important;
+
+    .color-red {
+      color: $danger !important;
+    }
+  }
+
+  .item-inner {
+    margin-left: 5px !important;
+  }
+}

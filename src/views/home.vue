@@ -2,11 +2,11 @@
   <f7-page v-if="!offline">
     <f7-block-title>Latest Articles</f7-block-title>
     <article-card
-      :header="article.title"
-      v-for="(article, index) in results"
-      :data="article"
-      :key="index"
-    ></article-card>
+            :header="article.title"
+            v-for="(article, index) in results"
+            :data="article"
+            :key="index"
+    />
 
     <div v-if="!firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
       <f7-button
@@ -18,7 +18,7 @@
     </div>
   </f7-page>
   <f7-page v-else>
-    <offline-card></offline-card>
+    <offline-card/>
   </f7-page>
 </template>
 <script>

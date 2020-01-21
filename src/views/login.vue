@@ -1,25 +1,25 @@
 <template>
   <f7-page v-if="!offline" login-screen>
-    <f7-navbar title="Login In" back-link="Back"></f7-navbar>
+    <f7-navbar title="Login In" back-link="Back"/>
     <f7-block-title>Login in to your account</f7-block-title>
     <f7-list form>
       <f7-list-input
-        label="Username"
-        type="text"
-        placeholder="Your username"
-        :value="email"
-        @input="email = $event.target.value"
-        :class="{'has-error': errors.email.length > 0}"
-        @change="checkValidation('email')"
-      ></f7-list-input>
+              label="Username"
+              type="text"
+              placeholder="Your username"
+              :value="email"
+              @input="email = $event.target.value"
+              :class="{'has-error': errors.email.length > 0}"
+              @change="checkValidation('email')"
+      />
       <f7-list-input
-        label="Password"
-        type="password"
-        placeholder="Your password"
-        :value="password"
-        @input="password = $event.target.value"
-        @change="checkValidation('password')"
-      ></f7-list-input>
+              label="Password"
+              type="password"
+              placeholder="Your password"
+              :value="password"
+              @input="password = $event.target.value"
+              @change="checkValidation('password')"
+      />
     </f7-list>
     <f7-list>
       <f7-button fill color="red" @click="login" style="width: 100px; margin: 0 auto;">Sign-In</f7-button>
@@ -27,7 +27,7 @@
     </f7-list>
   </f7-page>
   <f7-page v-else>
-    <offline-card></offline-card>
+    <offline-card/>
   </f7-page>
 </template>
 
