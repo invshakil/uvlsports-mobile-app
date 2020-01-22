@@ -1,14 +1,17 @@
 <template>
     <Slide width="200" id="bm-menu">
-        <img class="logo" src="http://uvlsports.com/image_upload/system_logo.png" height="50" alt="UVL SPORTS">
+        <img class="logo" :src="$store.state.systemLogo" height="50" :alt="$store.state.systemName">
 
         <ul class="main-navigation-area">
             <li class="main-menu" v-for="(route, i) in routes" :key="i"
-                v-if="(route.isLoginPage === false && route.shouldAuthCheck === undefined) ||  (route.isLoginPage === true && !$auth.check()) || ($auth.check() && $auth.isAllowed)"
+                v-if="(route.isLoginPage === undefined && route.shouldAuthCheck === undefined)
+                ||  (route.isLoginPage === true && !$auth.check())
+                || (route.isLoginPage === undefined && $auth.check())"
                 @click="openUrl(route)"
+                :class="{'has-sub': route.subs.length > 0, 'active': isActive && activeRoute === route.name}"
             >
-                <router-link :to="route.url"
-                             :class="{'link': true,'active': $route.path === route.url}"
+                <a href="#"
+                   :class="{'link': true,'active': $route.path === route.url}"
                 >
                     <f7-icon :material="route.icon" color="white"/>
                     {{ route.name }}
@@ -16,23 +19,24 @@
                             v-if="route.subs.length && (route.shouldAuthCheck === undefined || (route.shouldAuthCheck === true && $auth.check()))"
                             :f7="isActive && activeRoute === route.name ? 'arrowtriangle_down' : 'arrowtriangle_right'"
                             class="has-sub-arrow-icon" color="white"/>
-                </router-link>
+                </a>
+
                 <ul class="has-sub-menu"
-                    v-if="route.subs.length && isActive && activeRoute === route.name && $auth.check()">
+                    v-if="route.subs.length && (isActive && activeRoute === route.name) && ( route.shouldAuthCheck === undefined || (route.shouldAuthCheck === true && $auth.check()) )">
                     <li class="sub-menu" v-for="(subRoute, j) in route.subs" :key="i+j"
-                        v-if="$auth.check() && $auth.isAllowed"
+                        v-if="($auth.check() && subRoute.isTweetCreate === undefined) || (subRoute.isTweetCreate === true && $store.state.userInfo.hasTweetAccess)"
                         @click="visitUrlAndcloseMenu(subRoute.url)">
-                        <router-link class="link" :to="subRoute.url">
+                        <a href="#" :class="{'link': true,'active': $route.path === subRoute.url}">
                             <f7-icon :material="subRoute.icon" color="white"/>
                             {{ subRoute.name }}
-                        </router-link>
+                        </a>
                     </li>
                 </ul>
             </li>
         </ul>
 
         <div class="group-icons-bottom">
-            <a v-if="$auth.check()" @click="$auth.logout()" title="Logout">
+            <a v-if="$auth.check()" @click="logout()" title="Logout">
                 <f7-icon material="power_settings_new"/>
             </a>
 
@@ -55,19 +59,28 @@
         },
         data() {
             return {
-                isActive: null,
-                activeRoute: null,
+                isActive: false,
+                activeRoute: 'Home',
                 routes: [
-                    {name: 'Home', icon: 'home', url: '/', isLoginPage: false, subs: []},
-                    {name: 'Tweets', icon: 'book', url: '/tweets', isLoginPage: false, subs: []},
+                    {name: 'Home', icon: 'home', url: '/', subs: []},
+                    {name: 'Tweets', icon: 'book', url: '/tweets', subs: []},
                     {name: 'Login', icon: 'lock', url: '/login', isLoginPage: true, subs: []},
                     {
                         name: 'Account',
                         icon: 'person',
                         url: '#',
-                        isLoginPage: false,
                         shouldAuthCheck: true,
                         subs: [
+                            {name: 'Dashboard', icon: 'home', url: '/account/home'},
+                            {name: 'Create Tweet', icon: 'plus_one', url: '/account/create-tweet', isTweetCreate: true},
+                        ]
+                    },
+                    {
+                        name: 'About Us',
+                        icon: 'person',
+                        url: '#',
+                        subs: [
+                            {name: 'Dashboard', icon: 'home', url: '/account/home'},
                             {name: 'Create Tweet', icon: 'plus_one', url: '/account/create-tweet'},
                         ]
                     },
@@ -84,14 +97,13 @@
                 this.$utils.showMessage(obj, this);
             },
             openUrl(route) {
+                this.activeRoute === route.name ? this.isActive = !this.isActive : this.isActive = true;
                 this.activeRoute = route.name;
-                console.log(this.$router.path, route.url)
                 if (route.subs.length) {
-                    this.isActive = !this.isActive;
                     this.keepMenuOpen();
 
                 } else {
-                    if (this.$router.path !== route.url) {
+                    if (this.$route.path !== route.url) {
                         this.$router.push(route.url);
                     }
                 }
@@ -106,10 +118,14 @@
                 }, 10)
             },
             visitUrlAndcloseMenu(url) {
-                if (this.$router.path !== url) {
+                if (this.$route.path !== url) {
                     this.$router.push(url);
+                    let app = this;
+                    setTimeout(() => {
+                        app.isActive = true;
+                    }, 30)
                 }
-                console.log(this.$router.path, url)
+
                 setTimeout(() => {
                     document.body.classList.remove('bm-overlay');
                     var elm = document.getElementsByClassName("bm-menu");
@@ -117,6 +133,10 @@
                         elm[i].setAttribute('style', 'width: 0px');
                     }
                 }, 100)
+            },
+            logout() {
+                this.$auth.logout();
+                this.$store.dispatch('updateUserInfo', null)
             }
         }
     };

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './app.vue'
 import router from './router'
-import store from './store'
+import store from './store/store'
 
 import Framework7 from 'framework7/framework7.esm.bundle.js';
 

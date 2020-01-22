@@ -3,22 +3,22 @@
         <f7-navbar title="Login In" back-link="Back"/>
         <f7-block-title>Login in to your account</f7-block-title>
 
-      <f7-list>
-        <f7-list-item v-for="(error, i) in errors"
-                      :key="i"
-                      class="validation-error-message"
-                      v-if="error.length"
-                      :title="error[0]">
-          <f7-icon slot="media" md="material:error" color="red"/>
-        </f7-list-item>
-        <f7-list-item v-for="(error, i) in serverVErrors"
-                      :key="i"
-                      class="validation-error-message"
-                      v-if="error.length"
-                      :title="error[0]">
-          <f7-icon slot="media" md="material:error" color="red"/>
-        </f7-list-item>
-      </f7-list>
+        <f7-list>
+            <f7-list-item v-for="(error, i) in errors"
+                          :key="i"
+                          class="validation-error-message"
+                          v-if="error.length"
+                          :title="error[0]">
+                <f7-icon slot="media" md="material:error" color="red"/>
+            </f7-list-item>
+            <f7-list-item v-for="(error, i) in serverVErrors"
+                          :key="i"
+                          class="validation-error-message"
+                          v-if="error.length"
+                          :title="error[0]">
+                <f7-icon slot="media" md="material:error" color="red"/>
+            </f7-list-item>
+        </f7-list>
 
         <f7-list form>
             <f7-list-input
@@ -115,11 +115,7 @@
                     }
                 }
 
-                if (this.errors.email.length === 0 && this.errors.password.length === 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return this.errors.email.length === 0 && this.errors.password.length === 0;
             },
 
             validateEmail(mail) {
@@ -141,15 +137,16 @@
                     let vm = this;
                     this.$auth.login({
                         params: data,
-                        success: function () {
-                            // console.log(response);
+                        success: function (response) {
                             vm.$f7.preloader.hide();
                             let obj = {
                                 title: "Success!",
                                 text: "Logged in successfully..."
                             };
                             vm.$utils.showMessage(obj, vm);
-                            //vm.$router.push({name: 'home'});
+                            if (response.data.userInfo) {
+                                this.$store.dispatch('updateUserInfo', response.data.userInfo);
+                            }
                         },
                         error: function (error) {
                             vm.offline = vm.$utils.errorHandle(error, vm).offline;

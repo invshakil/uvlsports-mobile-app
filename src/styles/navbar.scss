@@ -53,8 +53,14 @@
           }
 
           &.active {
-            background-color: #7f5a83 !important;
+            background-color: #7f5a83;
           }
+        }
+      }
+
+      .sub-menu {
+        .active {
+          background-color: rgba(0, 0, 0, 0.12) !important;
         }
       }
     }

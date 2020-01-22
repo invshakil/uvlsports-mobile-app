@@ -152,7 +152,7 @@ body {
 }
 
 .block-title {
-  margin-left: 22px;
+  margin-left: 22px !important;
 }
 
 .login-screen-content .list ul {
@@ -160,7 +160,7 @@ body {
 }
 
 .card {
-  margin: 20px;
+  margin: 20px !important;
 
   .title {
     background: $orangeGradient;
@@ -210,11 +210,12 @@ body {
     min-height: 150px !important;
   }
 
-  .media-list {
-    padding: 10px;
-
+  &.media-list {
+    padding: 0 10px !important;
+    margin-top: 0 !important;
     .media-item {
-      margin: 10px;
+      margin: 10px !important;
+      border-radius: 10px ;
     }
   }
 }
