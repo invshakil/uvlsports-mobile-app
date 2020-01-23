@@ -1,17 +1,15 @@
 <template>
     <div>
-        <f7-list-item v-for="(error, i) in errors"
+        <f7-list-item v-for="(e, i) in filteredErrors"
                       :key="i"
                       class="validation-error-message"
-                      v-if="error.length"
-                      :title="error[0]">
+                      :title="e.length ? e[0] : ''">
             <f7-icon slot="media" md="material:error" color="red"/>
         </f7-list-item>
-        <f7-list-item v-for="(error, i) in server_errors"
+        <f7-list-item v-for="(sError, i) in server_errors"
                       :key="i"
                       class="validation-error-message"
-                      v-if="error.length"
-                      :title="error[0]">
+                      :title="sError.length ? sError[0] : ''">
             <f7-icon slot="media" md="material:error" color="red"/>
         </f7-list-item>
     </div>
@@ -28,6 +26,19 @@
             server_errors: {
                 required: false,
                 type: Array
+            }
+        },
+        computed: {
+            filteredErrors() {
+                let errors = Object.values(this.errors);
+                return errors.filter(item => {
+                    return item.length > 0;
+                });
+            },
+            filteredServerErrors() {
+                return this.server_errors.filter(item => {
+                    return item.length > 0;
+                })
             }
         },
         mounted() {

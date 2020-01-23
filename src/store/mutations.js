@@ -20,6 +20,7 @@ const mutations = {
             for (const property of Object.keys(payload)) {
                 if (payload[property] != null) userInfo[property] = payload[property]
             }
+            if(userInfo.image === undefined || userInfo.image === null) userInfo.image = require('../assets/demo-user.jpeg');
             // Store data in localStorage
             localStorage.setItem("userInfo", JSON.stringify(userInfo))
         } else {

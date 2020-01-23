@@ -3,16 +3,34 @@
     background-color: rgba(0, 0, 0, 0.4) !important;
     background-image: linear-gradient(to bottom, rgb(74, 58, 58) 0%, #7979ad 100%) !important;
 
-    .list {
-      padding-bottom: 20px !important;
-
-      &.item-title {
-        white-space: normal !important;
-      }
-    }
-
     form {
       padding-top: 20px;
+
+      .short-desc {
+        textarea {
+          min-height: 70px !important;
+          max-height: 80px !important;
+        }
+      }
+    }
+  }
+
+  .profile-picture {
+    width: 80px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    padding: 20px;
+  }
+}
+
+.list {
+  padding-bottom: 20px !important;
+
+  .validation-error-message {
+    .item-title {
+      white-space: normal !important;
+      font-size: 12px !important;
     }
   }
 }

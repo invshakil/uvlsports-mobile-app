@@ -10,7 +10,6 @@
                 </f7-list>
                 <f7-list form>
                     <f7-list-input
-                            clear-button
                             label="Title *"
                             type="text"
                             placeholder="Title of the tweet..."
@@ -21,7 +20,6 @@
                     />
 
                     <f7-list-input
-                            clear-button
                             label="Image Url (optional)"
                             type="text"
                             placeholder="e.g. https://uvlsports.com/demo-image.jpg"
@@ -32,7 +30,6 @@
                     />
 
                     <f7-list-input
-                            clear-button
                             label="Description"
                             type="textarea"
                             placeholder="Description of the tweet..."
@@ -156,7 +153,7 @@
             },
 
             isURL(str) {
-                let url = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/.test(str);
+                let url = /^(?:\w+:)?\/\/([^\s\\.]+\.\S{2}|localhost[\\:?\d]*)\S*$/.test(str);
                 if (url) {
                     var image = new Image();
                     image.src = str;
@@ -174,7 +171,7 @@
                     const vm = this;
                     const url = 'account/save-tweet';
                     this.$http.post(url, this.form)
-                        .then(response => {
+                        .then(() => {
                             vm.$f7.preloader.hide();
                             let obj = {
                                 title: "Success!",

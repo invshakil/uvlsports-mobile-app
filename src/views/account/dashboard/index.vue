@@ -8,9 +8,19 @@
                 <f7-list>
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
                 </f7-list>
+
+                <img :src="this.$store.state.userInfo.image" :alt="this.$store.state.userInfo.name" class="profile-picture"/>
+
+                <f7-list>
+                    <f7-list-item>
+                        <span>Edit Profile</span>
+                        <f7-toggle :checked="!view" @change="view = !view"></f7-toggle>
+                    </f7-list-item>
+                </f7-list>
+
                 <f7-list form>
                     <f7-list-input
-                            clear-button
+                            :disabled="view"
                             label="Name *"
                             type="text"
                             placeholder="Enter your Name..."
@@ -21,8 +31,16 @@
                     />
 
                     <f7-list-input
-                            clear-button
-                            label="Description"
+                            :disabled="true"
+                            label="Email"
+                            type="text"
+                            placeholder="Enter your Name..."
+                            :value="this.$store.state.userInfo.email"
+                    />
+
+                    <f7-list-input
+                            :disabled="view"
+                            label="Bio"
                             type="textarea"
                             placeholder="Description of the tweet..."
                             :value="form.bio"
@@ -32,28 +50,30 @@
                     />
 
                     <f7-list-input
-                            clear-button
+                            :disabled="view"
                             label="Facebook Url (optional)"
-                            type="text"
+                            type="textarea"
                             placeholder="e.g. https://www.facebook.com/inverse.shakil"
                             :value="form.user_fb"
                             @input="form.user_fb = $event.target.value"
+                            class="short-desc"
                             :class="{'has-error': errors.user_fb.length > 0}"
                             @change="checkValidation('user_fb')"
                     />
 
                     <f7-list-input
-                            clear-button
+                            :disabled="view"
                             label="Twitter Url (optional)"
-                            type="text"
+                            type="textarea"
                             placeholder="e.g. https://twitter.com/inverse_shakil"
                             :value="form.user_tw"
                             @input="form.user_tw = $event.target.value"
+                            class="short-desc"
                             :class="{'has-error': errors.user_tw.length > 0}"
                             @change="checkValidation('user_tw')"
                     />
 
-                    <f7-button fill color="red" :disabled="!isSubmitEnabled" @click="save"
+                    <f7-button v-if="!view" fill color="red" :disabled="!isSubmitEnabled" @click="save"
                                style="width: 100px; margin: 0 auto;">
                         Save
                     </f7-button>
@@ -78,6 +98,7 @@
         },
         data() {
             return {
+                view: true,
                 form: {
                     name: '',
                     bio: '',
@@ -98,6 +119,11 @@
         mounted() {
             if (!this.$auth.check()) {
                 this.$router.push('/login')
+            } else {
+                this.form.name = this.$store.state.userInfo.name;
+                this.form.bio = this.$store.state.userInfo.bio;
+                this.form.user_fb = this.$store.state.userInfo.user_fb;
+                this.form.user_tw = this.$store.state.userInfo.user_tw;
             }
         },
         computed: {
@@ -112,14 +138,14 @@
                     if (this.form.name === '') {
                         let obj = {
                             title: "Validation Error",
-                            text: "Title of the tweet is required"
+                            text: "Name is required"
                         };
                         this.errors.name.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
-                    } else if (this.form.name.length < 15) {
+                    } else if (this.form.name.length < 6) {
                         let obj = {
                             title: "Validation Error",
-                            text: "Title should have minimum 15 character."
+                            text: "Name should have minimum 6 character."
                         };
                         this.errors.name.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
@@ -136,10 +162,10 @@
                         };
                         this.errors.bio.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
-                    } else if (this.errors.bio.length < 20) {
+                    } else if (this.errors.bio.length < 15) {
                         let obj = {
                             title: "Validation Error",
-                            text: "Introduction should have minimum 20 character."
+                            text: "Introduction should have minimum 15 character."
                         };
                         this.errors.bio.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
@@ -170,7 +196,7 @@
             },
 
             validateFbProUrl(str) {
-                return /(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-\.]+)(?:\/)?/i.test(str);
+                return /(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w-]*\/)*([\w\-.]+)(?:\/)?/i.test(str);
             },
 
             validateTwProUrl(str) {
@@ -180,25 +206,26 @@
             save() {
                 this.offline = false;
                 if (this.checkValidation()) {
-                    this.$f7.preloader.show();
-                    const vm = this;
-                    const url = 'account/save-tweet';
-                    this.$http.post(url, this.form)
-                        .then(response => {
-                            vm.$f7.preloader.hide();
-                            let obj = {
-                                title: "Success!",
-                                text: "Successfully Saved."
-                            };
-                            vm.$utils.showMessage(obj, vm);
-                            vm.$ls.remove('tweets');
-                            vm.$router.push({name: '/tweets'});
-                        })
-                        .catch(error => {
-                            vm.offline = vm.$utils.errorHandle(error, vm).offline;
-                            vm.serverVErrors = vm.$utils.errorHandle(error, vm).vErrors;
-                            vm.$f7.preloader.hide();
-                        })
+                    alert('Saving is in development...')
+                    // this.$f7.preloader.show();
+                    // const vm = this;
+                    // const url = 'account/save-tweet';
+                    // this.$http.post(url, this.form)
+                    //     .then(response => {
+                    //         vm.$f7.preloader.hide();
+                    //         let obj = {
+                    //             title: "Success!",
+                    //             text: "Successfully Saved."
+                    //         };
+                    //         vm.$utils.showMessage(obj, vm);
+                    //         vm.$ls.remove('tweets');
+                    //         vm.$router.push({name: '/tweets'});
+                    //     })
+                    //     .catch(error => {
+                    //         vm.offline = vm.$utils.errorHandle(error, vm).offline;
+                    //         vm.serverVErrors = vm.$utils.errorHandle(error, vm).vErrors;
+                    //         vm.$f7.preloader.hide();
+                    //     })
                 }
 
             }
