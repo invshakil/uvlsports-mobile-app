@@ -1,6 +1,29 @@
 <template>
     <f7-page v-if="!offline">
-        <f7-block-title>Latest Articles</f7-block-title>
+        <f7-block-title> সর্বশেষ আর্টিক্যাল সমূহ</f7-block-title>
+
+        <f7-list inline-labels>
+            <f7-list-input
+                    type="text"
+                    placeholder="খুঁজুন..."
+            >
+                <f7-icon f7="search" slot="media" color="red"></f7-icon>
+            </f7-list-input>
+
+            <f7-list-item title=" ক্যাটাগরি" smart-select
+                          :smart-select-params="{openIn: 'popover', routableModals: false }">
+                <select name="" multiple>
+                    <option value="Batman" selected>Batman</option>
+                    <option value="Superman">Superman</option>
+                    <option value="Hulk">Hulk</option>
+                    <option value="Spiderman">Spiderman</option>
+                    <option value="Ironman">Ironman</option>
+                    <option value="Thor">Thor</option>
+                    <option value="Wonder Woman">Wonder Woman</option>
+                </select>
+            </f7-list-item>
+        </f7-list>
+
         <article-card
                 :header="article.title"
                 v-for="(article, index) in results"
