@@ -13,7 +13,7 @@
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <icon src="icons/uvl_logo_square_2iv_2.ico" />
-    <allow-navigation href="https://www.uvlsports.com/*" />
+    <allow-navigation href="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

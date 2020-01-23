@@ -1,9 +1,9 @@
 <template>
     <f7-page v-if="!offline">
-        <f7-navbar title="Create Tweet" back-link="Back"/>
+        <f7-navbar title="Profile" back-link="Back"/>
 
         <f7-card class="form-design">
-            <f7-card-header>Create Tweet</f7-card-header>
+            <f7-card-header>Your Profile</f7-card-header>
             <f7-card-content>
                 <f7-list>
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
@@ -11,24 +11,13 @@
                 <f7-list form>
                     <f7-list-input
                             clear-button
-                            label="Title *"
+                            label="Name *"
                             type="text"
-                            placeholder="Title of the tweet..."
-                            :value="form.title"
-                            @input="form.title = $event.target.value"
-                            :class="{'has-error': errors.title.length > 0}"
-                            @change="checkValidation('title')"
-                    />
-
-                    <f7-list-input
-                            clear-button
-                            label="Image Url (optional)"
-                            type="text"
-                            placeholder="e.g. https://uvlsports.com/demo-image.jpg"
-                            :value="form.image"
-                            @input="form.image = $event.target.value"
-                            :class="{'has-error': errors.image.length > 0}"
-                            @change="checkValidation('image')"
+                            placeholder="Enter your Name..."
+                            :value="form.name"
+                            @input="form.name = $event.target.value"
+                            :class="{'has-error': errors.name.length > 0}"
+                            @change="checkValidation('name')"
                     />
 
                     <f7-list-input
@@ -36,10 +25,32 @@
                             label="Description"
                             type="textarea"
                             placeholder="Description of the tweet..."
-                            :value="form.description"
-                            @input="form.description = $event.target.value"
-                            :class="{'has-error': errors.description.length > 0}"
-                            @change="checkValidation('description')"
+                            :value="form.bio"
+                            @input="form.bio = $event.target.value"
+                            :class="{'has-error': errors.bio.length > 0}"
+                            @change="checkValidation('bio')"
+                    />
+
+                    <f7-list-input
+                            clear-button
+                            label="Facebook Url (optional)"
+                            type="text"
+                            placeholder="e.g. https://www.facebook.com/inverse.shakil"
+                            :value="form.user_fb"
+                            @input="form.user_fb = $event.target.value"
+                            :class="{'has-error': errors.user_fb.length > 0}"
+                            @change="checkValidation('user_fb')"
+                    />
+
+                    <f7-list-input
+                            clear-button
+                            label="Twitter Url (optional)"
+                            type="text"
+                            placeholder="e.g. https://twitter.com/inverse_shakil"
+                            :value="form.user_tw"
+                            @input="form.user_tw = $event.target.value"
+                            :class="{'has-error': errors.user_tw.length > 0}"
+                            @change="checkValidation('user_tw')"
                     />
 
                     <f7-button fill color="red" :disabled="!isSubmitEnabled" @click="save"
@@ -68,14 +79,16 @@
         data() {
             return {
                 form: {
-                    title: '',
-                    image: '',
-                    description: ''
+                    name: '',
+                    bio: '',
+                    user_fb: '',
+                    user_tw: ''
                 },
                 errors: {
-                    title: [],
-                    description: [],
-                    image: [],
+                    name: [],
+                    bio: [],
+                    user_fb: [],
+                    user_tw: [],
                 },
                 serverVErrors: [],
                 error: false,
@@ -83,88 +96,85 @@
             };
         },
         mounted() {
+            if (!this.$auth.check()) {
+                this.$router.push('/login')
+            }
         },
         computed: {
             isSubmitEnabled() {
-                return this.form.title !== '' && this.form.description !== '' &&
-                    this.errors.title.length === 0 && this.errors.image.length === 0 && this.errors.description.length === 0;
+                return this.form.name !== '' && this.errors.bio !== '' &&
+                    this.errors.name.length === 0 && this.errors.user_fb.length === 0 && this.errors.user_tw.length === 0 && this.errors.bio.length === 0;
             }
         },
         methods: {
             checkValidation(input = false) {
-                if (input === "title" || !input) {
-                    if (this.form.title === '') {
+                if (input === "name" || !input) {
+                    if (this.form.name === '') {
                         let obj = {
                             title: "Validation Error",
                             text: "Title of the tweet is required"
                         };
-                        this.errors.title.push(obj.text);
+                        this.errors.name.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
-                    } else if (this.form.title.length < 15) {
+                    } else if (this.form.name.length < 15) {
                         let obj = {
                             title: "Validation Error",
                             text: "Title should have minimum 15 character."
                         };
-                        this.errors.title.push(obj.text);
+                        this.errors.name.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
                     } else {
-                        this.errors.title = [];
+                        this.errors.name = [];
                     }
                 }
-                if (input === "description" || !input) {
-                    this.errors.description = [];
-                    if (this.form.description === '') {
+                if (input === "bio" || !input) {
+                    this.errors.bio = [];
+                    if (this.errors.bio === '') {
                         let obj = {
                             title: "Validation Error",
-                            text: "Description of the tweet is required"
+                            text: "Introduction is required"
                         };
-                        this.errors.description.push(obj.text);
+                        this.errors.bio.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
-                    } else if (this.form.description.length < 20) {
+                    } else if (this.errors.bio.length < 20) {
                         let obj = {
                             title: "Validation Error",
-                            text: "Description should have minimum 20 character."
+                            text: "Introduction should have minimum 20 character."
                         };
-                        this.errors.description.push(obj.text);
+                        this.errors.bio.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
-                    } else if (this.form.description.length > 500) {
+                    } else if (this.errors.bio.length > 300) {
                         let obj = {
                             title: "Validation Error",
-                            text: "Description can not have more than 500 character."
+                            text: "Introduction can not have more than 300 character."
                         };
-                        this.errors.description.push(obj.text);
+                        this.errors.bio.push(obj.text);
                         this.$utils.showMessage(obj, this, 2);
                     }
                 }
-                if (input === "image" || !input) {
-                    this.errors.image = [];
-                    if (this.form.image !== '') {
-                        let result = this.isURL(this.form.image);
+                if (input === 'user_fb' || input === 'user_tw' || !input) {
+                    this.errors.user_fb = [];
+                    if (this.form.user_fb !== '') {
+                        let result = input === 'user_fb' ? this.validateFbProUrl(this.form[input]) : this.validateTwProUrl(this.form[input]);
                         if (!result) {
-                            this.errors.image.push('Image Url is not valid');
                             let obj = {
                                 title: "Validation Error",
-                                text: "Image Url is not valid"
+                                text: "Profile url is not valid"
                             };
-                            this.errors.image.push(obj.text);
+                            this.errors[input].push(obj.text);
                             this.$utils.showMessage(obj, this, 2);
                         }
                     }
                 }
-
-                return this.errors.title.length === 0 && this.errors.title.length === 0 && this.errors.description.length === 0;
+                return this.errors.name.length === 0 && this.errors.bio.length === 0 && this.errors.user_fb.length === 0 && this.errors.user_tw.length === 0;
             },
 
-            isURL(str) {
-                let url = /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/.test(str);
-                if (url) {
-                    var image = new Image();
-                    image.src = str;
+            validateFbProUrl(str) {
+                return /(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-\.]+)(?:\/)?/i.test(str);
+            },
 
-                    return image.complete && image.height !== 0;
-                } else {
-                    return false;
-                }
+            validateTwProUrl(str) {
+                return /http(?:s)?:\/\/(?:www\.)?twitter\.com\/([a-zA-Z0-9_]+)/.test(str);
             },
 
             save() {

@@ -75,15 +75,15 @@
                             {name: 'Create Tweet', icon: 'plus_one', url: '/account/create-tweet', isTweetCreate: true},
                         ]
                     },
-                    {
-                        name: 'About Us',
-                        icon: 'person',
-                        url: '#',
-                        subs: [
-                            {name: 'Dashboard', icon: 'home', url: '/account/home'},
-                            {name: 'Create Tweet', icon: 'plus_one', url: '/account/create-tweet'},
-                        ]
-                    },
+                    // {
+                    //     name: 'About Us',
+                    //     icon: 'person',
+                    //     url: '#',
+                    //     subs: [
+                    //         {name: 'Dashboard', icon: 'home', url: '/account/home'},
+                    //         {name: 'Create Tweet', icon: 'plus_one', url: '/account/create-tweet'},
+                    //     ]
+                    // },
                 ]
             }
         },

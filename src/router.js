@@ -7,6 +7,7 @@ import HomePage from './views/home.vue';
 import LoginPage from './views/login.vue';
 import ArticleDetails from './views/posts/_id/index.vue';
 import TweetsPage from './views/tweets/index.vue';
+import Dashboard from './views/account/dashboard/index';
 import CreateTweet from './views/account/tweet/create';
 
 
@@ -43,11 +44,17 @@ const routes = [
         name: 'createTweet',
         component: CreateTweet,
     },
+    {
+        path: '/account/home',
+        name: 'userDashboard',
+        component: Dashboard,
+
+    },
 
 ]
 
-axios.defaults.baseURL = 'http://localhost:8000/api';
-//axios.defaults.baseURL = 'http://uvlsports.com/api';
+// axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = 'http://uvlsports.com/api';
 
 Vue.config.productionTip = false
 
@@ -64,10 +71,19 @@ Vue.use(require('@websanova/vue-auth'), {
     authRedirect: '/login',
     tokenDefaultName: 'uvlsports-auth',
     tokenStore: ['localStorage'],
-    loginData: {url: 'auth/login', method: 'post', redirect: '/', fetchUser: true},
-    logoutData: {url: 'auth/logout', method: 'post', redirect: '/', makeRequest: true},
-    fetchData: {url: 'auth/user', method: 'get', enable: true},
+    loginData: {url: 'auth/login', method: 'post', redirect: '/account/home', fetchUser: true},
+    logoutData: {url: 'auth/logout', method: 'post', redirect: '/login', makeRequest: true},
+    fetchData: {url: 'auth/user', method: 'get', enable: false},
     refreshData: {url: 'auth/refresh', method: 'get', enable: false, interval: 30},
 });
+
+// router.beforeEach((to, from, next) => {
+//     axios.get('/auth/user').then(response => {
+//         next();
+//     }).catch(error => {
+//         next('/login')
+//         localStorage.removeItem('userInfo');
+//     })
+// });
 
 export default router

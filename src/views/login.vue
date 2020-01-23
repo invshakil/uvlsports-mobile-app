@@ -1,48 +1,37 @@
 <template>
     <f7-page v-if="!offline" login-screen>
         <f7-navbar title="Login In" back-link="Back"/>
-        <f7-block-title>Login in to your account</f7-block-title>
 
-        <f7-list>
-            <f7-list-item v-for="(error, i) in errors"
-                          :key="i"
-                          class="validation-error-message"
-                          v-if="error.length"
-                          :title="error[0]">
-                <f7-icon slot="media" md="material:error" color="red"/>
-            </f7-list-item>
-            <f7-list-item v-for="(error, i) in serverVErrors"
-                          :key="i"
-                          class="validation-error-message"
-                          v-if="error.length"
-                          :title="error[0]">
-                <f7-icon slot="media" md="material:error" color="red"/>
-            </f7-list-item>
-        </f7-list>
+        <f7-card class="form-design">
+            <f7-card-header>Login in to your account</f7-card-header>
+            <f7-card-content>
+                <f7-list>
+                    <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
+                </f7-list>
+                <f7-list form>
+                    <f7-list-input
+                            label="Username"
+                            type="text"
+                            placeholder="Your username"
+                            :value="email"
+                            @input="email = $event.target.value"
+                            :class="{'has-error': errors.email.length > 0}"
+                            @change="checkValidation('email')"
+                    />
+                    <f7-list-input
+                            label="Password"
+                            type="password"
+                            placeholder="Your password"
+                            :value="password"
+                            @input="password = $event.target.value"
+                            @change="checkValidation('password')"
+                    />
 
-        <f7-list form>
-            <f7-list-input
-                    label="Username"
-                    type="text"
-                    placeholder="Your username"
-                    :value="email"
-                    @input="email = $event.target.value"
-                    :class="{'has-error': errors.email.length > 0}"
-                    @change="checkValidation('email')"
-            />
-            <f7-list-input
-                    label="Password"
-                    type="password"
-                    placeholder="Your password"
-                    :value="password"
-                    @input="password = $event.target.value"
-                    @change="checkValidation('password')"
-            />
-        </f7-list>
-        <f7-list>
-            <f7-button fill color="red" @click="login" style="width: 100px; margin: 0 auto;">Sign-In</f7-button>
-            <f7-block-footer>We collect information you provide to us directly when you use our app.</f7-block-footer>
-        </f7-list>
+                    <f7-button fill color="red" @click="login" style="width: 100px; margin: 0 auto;">Sign-In</f7-button>
+                    <f7-block-footer>We collect information you provide to us directly when you use our app.</f7-block-footer>
+                </f7-list>
+            </f7-card-content>
+        </f7-card>
     </f7-page>
     <f7-page v-else>
         <offline-card/>
@@ -51,10 +40,11 @@
 
 <script>
     import OfflineCard from "../components/offline-card";
-
+    import ValidationErrorDisplay from '../components/validation-error-display'
     export default {
         components: {
-            OfflineCard
+            OfflineCard,
+            ValidationErrorDisplay
         },
         data() {
             return {
@@ -119,10 +109,8 @@
             },
 
             validateEmail(mail) {
-                if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-                    return true;
-                }
-                return false;
+                return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail);
+
             },
 
             login() {
