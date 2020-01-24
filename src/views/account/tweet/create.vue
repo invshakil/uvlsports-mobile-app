@@ -3,16 +3,16 @@
         <f7-navbar title="Create Tweet" back-link="Back"/>
 
         <f7-card class="form-design">
-            <f7-card-header>Create Tweet</f7-card-header>
+            <f7-card-header>নতুন টুইট ক্রিয়েট করুন</f7-card-header>
             <f7-card-content>
                 <f7-list>
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
                 </f7-list>
                 <f7-list form>
                     <f7-list-input
-                            label="Title *"
+                            label="টাইটেল *"
                             type="text"
-                            placeholder="Title of the tweet..."
+                            placeholder="লিখুন..."
                             :value="form.title"
                             @input="form.title = $event.target.value"
                             :class="{'has-error': errors.title.length > 0}"
@@ -20,9 +20,9 @@
                     />
 
                     <f7-list-input
-                            label="Image Url (optional)"
+                            label="ছবির লিঙ্ক (optional)"
                             type="text"
-                            placeholder="e.g. https://uvlsports.com/demo-image.jpg"
+                            placeholder="যেমন. https://uvlsports.com/demo-image.jpg"
                             :value="form.image"
                             @input="form.image = $event.target.value"
                             :class="{'has-error': errors.image.length > 0}"
@@ -30,9 +30,9 @@
                     />
 
                     <f7-list-input
-                            label="Description"
+                            label="বিস্তারিত"
                             type="textarea"
-                            placeholder="Description of the tweet..."
+                            placeholder="বিস্তারিত লিখুন..."
                             :value="form.description"
                             @input="form.description = $event.target.value"
                             :class="{'has-error': errors.description.length > 0}"
@@ -41,7 +41,7 @@
 
                     <f7-button fill color="red" :disabled="!isSubmitEnabled" @click="save"
                                style="width: 100px; margin: 0 auto;">
-                        Save
+                        সেভ করুন
                     </f7-button>
                 </f7-list>
             </f7-card-content>

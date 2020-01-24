@@ -2,24 +2,25 @@
     <f7-page v-if="!offline">
         <f7-block-title> সর্বশেষ আর্টিক্যাল সমূহ</f7-block-title>
 
-        <f7-list inline-labels>
+        <f7-list class="filter-area" inline-labels>
             <f7-list-input
                     type="text"
                     placeholder="খুঁজুন..."
+                    @change="filterResult($event.target.value, 'string')"
+                    :value="filter.string"
             >
                 <f7-icon f7="search" slot="media" color="red"></f7-icon>
             </f7-list-input>
 
-            <f7-list-item title=" ক্যাটাগরি" smart-select
+            <f7-list-item title="ক্যাটাগরি" smart-select
                           :smart-select-params="{openIn: 'popover', routableModals: false }">
-                <select name="" multiple>
-                    <option value="Batman" selected>Batman</option>
-                    <option value="Superman">Superman</option>
-                    <option value="Hulk">Hulk</option>
-                    <option value="Spiderman">Spiderman</option>
-                    <option value="Ironman">Ironman</option>
-                    <option value="Thor">Thor</option>
-                    <option value="Wonder Woman">Wonder Woman</option>
+                <select name="category_id"
+                        @change="filterResult($event.target.value, 'category_id')"
+                        :value="filter.category_id">
+                    <option value="0" selected>সবগুলো</option>
+                    <option v-for="(category, i) in this.$store.state.categories" :key="i" :value="category.id">
+                        {{ category.banglaName }}
+                    </option>
                 </select>
             </f7-list-item>
         </f7-list>
@@ -59,6 +60,10 @@
             return {
                 page: 0,
                 set: 10,
+                filter: {
+                    category_id: 0,
+                    string: '',
+                },
                 results: [],
                 nextPageExist: 1,
                 loading: false,
@@ -79,6 +84,16 @@
                     return baseUrl + "/" + "image_upload/system_logo.png";
                 }
                 return imageSrc;
+            },
+            filterResult(value, type) {
+                if (type === 'category_id') {
+                    this.filter.category_id = value;
+                } else {
+                    this.filter.string = value;
+                }
+                this.page = 0;
+                this.set = 10;
+                setTimeout(() => this.infiniteHandler(true), 2000)
             },
             get() {
                 let articles = this.$ls.get("articles");
@@ -101,7 +116,7 @@
                 this.$f7.preloader.show();
                 this.loading = true;
                 this.offline = false;
-                let url = "/get-articles";
+                let url = "/get-articles?category_id=" + this.filter.category_id + '&string=' + this.filter.string;
                 this.$http
                     .get(url, {
                         params: {

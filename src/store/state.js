@@ -3,6 +3,7 @@ const state = {
     systemLogo: 'http://uvlsports.com/image_upload/system_logo.png',
     userInfo: getUserInfo(),
     windowWidth: null,
+    categories: []
 }
 
 

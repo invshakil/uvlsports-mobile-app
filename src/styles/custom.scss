@@ -34,3 +34,25 @@
     }
   }
 }
+
+.filter-area {
+  .item-content {
+    flex-direction: row-reverse !important;
+  }
+
+  .item-inner {
+    margin-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .smart-select {
+    .item-inner {
+      padding-right: 42px !important;
+    }
+  }
+}
+
+.item-title.item-label {
+  height: 20px;
+  padding-top: 5px;
+}

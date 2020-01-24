@@ -1,6 +1,10 @@
 const actions = {
-    updateSystemSettings({commit}, val) {
-        commit('UPDATE_SYSTEM_SETTINGS', val)
+    updateSystemSettings({commit}, payload) {
+        commit('UPDATE_SYSTEM_SETTINGS', payload)
+    },
+
+    storeCategories({commit}, payload){
+       commit('STORE_CATEGORIS', payload)
     },
 
     // UPDATE USER INFO

@@ -3,7 +3,7 @@
         <f7-navbar title="Profile" back-link="Back"/>
 
         <f7-card class="form-design">
-            <f7-card-header>Your Profile</f7-card-header>
+            <f7-card-header>আপনার প্রোফাইল</f7-card-header>
             <f7-card-content>
                 <f7-list>
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
@@ -13,7 +13,7 @@
 
                 <f7-list>
                     <f7-list-item>
-                        <span>Edit Profile</span>
+                        <span>প্রোফাইল এডিট করুন</span>
                         <f7-toggle :checked="!view" @change="view = !view"></f7-toggle>
                     </f7-list-item>
                 </f7-list>
@@ -21,9 +21,9 @@
                 <f7-list form>
                     <f7-list-input
                             :disabled="view"
-                            label="Name *"
+                            label=" আপনার নাম *"
                             type="text"
-                            placeholder="Enter your Name..."
+                            placeholder="আপনার নাম টাইপ করুন..."
                             :value="form.name"
                             @input="form.name = $event.target.value"
                             :class="{'has-error': errors.name.length > 0}"
@@ -32,17 +32,17 @@
 
                     <f7-list-input
                             :disabled="true"
-                            label="Email"
+                            label=" ইমেইল"
                             type="text"
-                            placeholder="Enter your Name..."
+                            placeholder="Email..."
                             :value="this.$store.state.userInfo.email"
                     />
 
                     <f7-list-input
                             :disabled="view"
-                            label="Bio"
+                            label="আপনার সম্পর্কে"
                             type="textarea"
-                            placeholder="Description of the tweet..."
+                            placeholder=" আপনার সম্পর্কে সংক্ষেপে লিখুন..."
                             :value="form.bio"
                             @input="form.bio = $event.target.value"
                             :class="{'has-error': errors.bio.length > 0}"
@@ -51,9 +51,9 @@
 
                     <f7-list-input
                             :disabled="view"
-                            label="Facebook Url (optional)"
+                            label="ফেসবুক প্রোফাইল লিঙ্ক (optional)"
                             type="textarea"
-                            placeholder="e.g. https://www.facebook.com/inverse.shakil"
+                            placeholder="যেমন - https://www.facebook.com/inverse.shakil"
                             :value="form.user_fb"
                             @input="form.user_fb = $event.target.value"
                             class="short-desc"
@@ -63,9 +63,9 @@
 
                     <f7-list-input
                             :disabled="view"
-                            label="Twitter Url (optional)"
+                            label="টুইটার প্রোফাইল লিঙ্ক (optional)"
                             type="textarea"
-                            placeholder="e.g. https://twitter.com/inverse_shakil"
+                            placeholder="যেমন - https://twitter.com/inverse_shakil"
                             :value="form.user_tw"
                             @input="form.user_tw = $event.target.value"
                             class="short-desc"
@@ -75,7 +75,7 @@
 
                     <f7-button v-if="!view" fill color="red" :disabled="!isSubmitEnabled" @click="save"
                                style="width: 100px; margin: 0 auto;">
-                        Save
+                        সেভ করুন
                     </f7-button>
                 </f7-list>
             </f7-card-content>

@@ -3,28 +3,22 @@
         <img class="logo" :src="$store.state.systemLogo" height="50" :alt="$store.state.systemName">
 
         <ul class="main-navigation-area">
-            <li class="main-menu" v-for="(route, i) in routes" :key="i"
-                v-if="(route.isLoginPage === undefined && route.shouldAuthCheck === undefined)
-                ||  (route.isLoginPage === true && !$auth.check())
-                || (route.isLoginPage === undefined && $auth.check())"
+            <li class="main-menu" v-for="(route, i) in filteredRoutes" :key="i"
                 @click="openUrl(route)"
                 :class="{'has-sub': route.subs.length > 0, 'active': isActive && activeRoute === route.name}"
             >
-                <a href="#"
-                   :class="{'link': true,'active': $route.path === route.url}"
-                >
+                <a href="#" :class="{'link': true,'active': $route.path === route.url}">
                     <f7-icon :material="route.icon" color="white"/>
                     {{ route.banglaName }}
                     <f7-icon
-                            v-if="route.subs.length && (route.shouldAuthCheck === undefined || (route.shouldAuthCheck === true && $auth.check()))"
+                            v-if="route.showArrowIcon"
                             :f7="isActive && activeRoute === route.name ? 'arrowtriangle_down' : 'arrowtriangle_right'"
                             class="has-sub-arrow-icon" color="white"/>
                 </a>
 
                 <ul class="has-sub-menu"
-                    v-if="route.subs.length && (isActive && activeRoute === route.name) && ( route.shouldAuthCheck === undefined || (route.shouldAuthCheck === true && $auth.check()) )">
+                    v-if="route.subs.length && (isActive && activeRoute === route.name)">
                     <li class="sub-menu" v-for="(subRoute, j) in route.subs" :key="i+j"
-                        v-if="($auth.check() && subRoute.isTweetCreate === undefined) || (subRoute.isTweetCreate === true && $store.state.userInfo.hasTweetAccess)"
                         @click="visitUrlAndcloseMenu(subRoute.url)">
                         <a href="#" :class="{'link': true,'active': $route.path === subRoute.url}">
                             <f7-icon :material="subRoute.icon" color="white"/>
@@ -50,51 +44,80 @@
 
 <script>
     import {Slide} from "vue-burger-menu";
+    import routes from '../navigation'
 
     export default {
         components: {
             Slide
         },
-        mounted() {
+        async mounted() {
+            let categories = localStorage.getItem("categories");
+            if (categories === null || categories === undefined) {
+                await this.fetchCategories();
+            } else {
+                await this.storeCategoriesToStore(JSON.parse(categories));
+            }
+        },
+        computed: {
+            filteredRoutes() {
+                let lCategories = [];
+                let sCategories = [];
+
+                this.$store.state.categories.forEach(item => (item.is_league === 1) ? lCategories.push(item) : sCategories.push(item));
+
+                return routes.filter(route => {
+                    // Attaching subs menu for two different type category
+                    if (route.name === 'League_Categories') {
+                        route.subs = lCategories;
+                    } else if (route.name === 'FFBD_Special') {
+                        route.subs = sCategories;
+                    }
+                    // 1st condition which one is public routes
+                    // 2nd condition if it is login page and user is logged in or not
+                    // 3rd condition if user is logged in
+                    if ((route.isLoginPage === undefined && route.shouldAuthCheck === undefined)
+                        || (route.isLoginPage === true && !this.$auth.check())
+                        || (route.isLoginPage === undefined && this.$auth.check())) {
+                        route.showArrowIcon = !!(route.subs.length && (route.shouldAuthCheck === undefined || (route.shouldAuthCheck === true && this.$auth.check())));
+
+                        // Checking if sub route list is public or needs logged in
+                        if ((route.shouldAuthCheck === undefined || (route.shouldAuthCheck === true && this.$auth.check()))) {
+                            // Filtering sub route
+                            // 1st condition: as it is sub route, auth check not needed, auth checked in parent route
+                            // 2nd ondition: if it is tweet create route, then check if user has access to this page
+                            route.subs = route.subs.filter(subRoute =>
+                                (subRoute.shouldAuthCheck === undefined) || (subRoute.isTweetCreate === true && this.$store.state.userInfo.hasTweetAccess)
+                            )
+                        } else {
+                            route.subs = [];
+                        }
+                        return route;
+                    }
+                })
+            }
         },
         data() {
             return {
                 isActive: false,
                 activeRoute: 'Home',
-                routes: [
-                    {name: 'Home', banglaName: ' হোম', icon: 'home', url: '/', subs: []},
-                    {name: 'Tweets', banglaName: 'টুইট সমূহ', icon: 'book', url: '/tweets', subs: []},
-                    {name: 'Login', banglaName: 'লগিন', icon: 'lock', url: '/login', isLoginPage: true, subs: []},
-                    {
-                        name: 'Account',
-                        banglaName: 'একাউন্ট',
-                        icon: 'person',
-                        url: '#',
-                        shouldAuthCheck: true,
-                        subs: [
-                            {name: 'Dashboard', banglaName: 'ড্যাশবোর্ড', icon: 'home', url: '/account/home'},
-                            {
-                                name: 'Create Tweet',
-                                banglaName: 'নতুন টুইট',
-                                icon: 'plus_one',
-                                url: '/account/create-tweet',
-                                isTweetCreate: true
-                            },
-                        ]
-                    },
-                    // {
-                    //     name: 'About Us',
-                    //     icon: 'person',
-                    //     url: '#',
-                    //     subs: [
-                    //         {name: 'Dashboard', icon: 'home', url: '/account/home'},
-                    //         {name: 'Create Tweet', icon: 'plus_one', url: '/account/create-tweet'},
-                    //     ]
-                    // },
-                ]
+                routes: []
             }
         },
         methods: {
+            async fetchCategories() {
+                await this.$http.get('/get-categories')
+                    .then(response => {
+                        this.storeCategoriesToStore(response.data)
+                    })
+                    .catch(e => {
+                        this.offline = this.$utils.errorHandle(e, this).offline;
+                        this.serverVErrors = this.$utils.errorHandle(e, this).vErrors;
+                        this.$f7.preloader.hide();
+                    })
+            },
+            async storeCategoriesToStore(data) {
+                await this.$store.dispatch('storeCategories', data);
+            },
             clearCache() {
                 localStorage.clear();
                 let obj = {

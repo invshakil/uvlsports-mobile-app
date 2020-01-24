@@ -153,6 +153,8 @@ body {
 
 .block-title {
   margin-left: 22px !important;
+  height: 40px;
+  font-size: 30px;
 }
 
 .login-screen-content .list ul {
@@ -213,9 +215,10 @@ body {
   &.media-list {
     padding: 0 10px !important;
     margin-top: 0 !important;
+
     .media-item {
       margin: 10px !important;
-      border-radius: 10px ;
+      border-radius: 10px;
     }
   }
 }

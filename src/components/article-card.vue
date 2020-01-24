@@ -9,7 +9,7 @@
                 <p class="date">{{ data.time_format }}</p>
             </f7-card-content>
             <f7-card-footer>
-                <div class="demo-facebook-name">{{ data.author.name }}</div>
+                <div class="demo-facebook-name">{{ this.$utils.ucwords(data.author.name) }}</div>
                 <div class="demo-facebook-date">
                     <f7-link @click="visitArticlePage">বিস্তারিত...</f7-link>
                 </div>

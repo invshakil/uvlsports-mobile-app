@@ -3,32 +3,33 @@
         <f7-navbar title="Login In" back-link="Back"/>
 
         <f7-card class="form-design">
-            <f7-card-header>Login in to your account</f7-card-header>
+            <f7-card-header> আপনার একাউন্টে লগিন করুন</f7-card-header>
             <f7-card-content>
                 <f7-list>
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
                 </f7-list>
                 <f7-list form>
                     <f7-list-input
-                            label="Username"
+                            label="আপনার ইমেইল"
                             type="text"
-                            placeholder="Your username"
+                            placeholder="e.g. johndoe@email.com"
                             :value="email"
                             @input="email = $event.target.value"
                             :class="{'has-error': errors.email.length > 0}"
                             @change="checkValidation('email')"
                     />
                     <f7-list-input
-                            label="Password"
+                            label="পাসওয়ার্ড"
                             type="password"
-                            placeholder="Your password"
+                            placeholder="**********"
                             :value="password"
                             @input="password = $event.target.value"
                             @change="checkValidation('password')"
                     />
 
-                    <f7-button fill color="red" @click="login" style="width: 100px; margin: 0 auto;">Sign-In</f7-button>
-                    <f7-block-footer>We collect information you provide to us directly when you use our app.</f7-block-footer>
+                    <f7-button fill color="red" @click="login" style="width: 100px; margin: 0 auto;">লগিন করুন
+                    </f7-button>
+                    <!--                    <f7-block-footer>আপনি আমাদের অ্যাপ্লিকেশনটি ব্যবহার করার সময় আমরা সরাসরি আমাদের সরবরাহ করা তথ্য সংগ্রহ করি.</f7-block-footer>-->
                 </f7-list>
             </f7-card-content>
         </f7-card>
@@ -41,6 +42,7 @@
 <script>
     import OfflineCard from "../components/offline-card";
     import ValidationErrorDisplay from '../components/validation-error-display'
+
     export default {
         components: {
             OfflineCard,

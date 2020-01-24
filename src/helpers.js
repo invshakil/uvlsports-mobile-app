@@ -57,4 +57,10 @@ export default {
         };
     },
 
+    ucwords(string) {
+        return string.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+        });
+    }
+
 }
