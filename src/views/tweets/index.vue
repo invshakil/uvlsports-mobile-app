@@ -2,7 +2,7 @@
     <div style="height: 100%">
         <f7-page v-if="!offline">
             <p id="breadcrumb">
-                <a @click="$router.go(-1)">হোম</a>
+                <a @click="$router.push('/')">হোম</a>
                 <a href>টুইট সমূহ</a>
             </p>
             <f7-list media-list>

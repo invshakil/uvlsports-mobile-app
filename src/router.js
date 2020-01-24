@@ -4,6 +4,7 @@ import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
 import NotFoundPage from './views/pages/not-found.vue';
 import HomePage from './views/home.vue';
+import ArticlePage from './views/pages/category';
 import LoginPage from './views/login.vue';
 import ArticleDetails from './views/posts/_id/index.vue';
 import TweetsPage from './views/tweets/index.vue';
@@ -19,6 +20,11 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomePage
+    },
+    {
+        path: '/categories/:id',
+        component: ArticlePage,
+        name: 'Category'
     },
     {
         path: '/article-details/:id',

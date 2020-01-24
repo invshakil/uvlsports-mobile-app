@@ -2,7 +2,7 @@
 <template>
   <f7-page v-if="data">
     <p id="breadcrumb">
-      <a @click="$router.go(-1)">হোম</a>
+      <a @click="$router.push('/')">হোম</a>
       <a href>{{ data && data.title.length > 33 ? data.title.substr(0, 30) + '...' : data.title }}</a>
     </p>
 

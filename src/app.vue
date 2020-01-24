@@ -3,7 +3,7 @@
     <f7-app>
         <navbar/>
         <sidemenu/>
-        <router-view id="page-wrap"/>
+        <router-view id="page-wrap" :key="$route.fullPath"/>
         <cfooter/>
     </f7-app>
 </template>
