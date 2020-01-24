@@ -31,6 +31,11 @@ export default {
                     title: "Error!",
                     text: "Authentication Failed."
                 };
+            } else if (error.response.status === 405) {
+                obj = {
+                    title: "Error!",
+                    text: "This Operation Method not supported."
+                };
             } else if (error.response.status === 422) {
                 obj = {
                     title: "Error!",

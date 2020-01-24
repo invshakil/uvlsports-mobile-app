@@ -6,7 +6,8 @@
                 <a href>টুইট সমূহ</a>
             </p>
             <f7-list media-list>
-                <tweet-block v-for="(tweet, index) in results" :data="tweet" :key="index"/>
+                <tweet-block @fetchFreshContent="fetchFreshContent" v-for="(tweet, index) in results" :data="tweet"
+                             :key="index"/>
             </f7-list>
             <div v-if="!firstLoad" style="width: 100%; text-align: center; margin-bottom: 10px">
                 <f7-button
@@ -58,6 +59,13 @@
                     return baseUrl + "/" + "image_upload/system_logo.png";
                 }
                 return imageSrc;
+            },
+            async fetchFreshContent() {
+                await this.$ls.remove('tweets');
+                this.page = 0;
+                this.set = 10;
+                await this.infiniteHandler(true);
+                window.scrollTo({top: 0, behavior: 'smooth'});
             },
             get() {
                 let tweets = this.$ls.get("tweets");

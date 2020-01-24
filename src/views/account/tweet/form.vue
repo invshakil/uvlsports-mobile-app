@@ -3,7 +3,7 @@
         <f7-navbar title="Create Tweet" back-link="Back"/>
 
         <f7-card class="form-design">
-            <f7-card-header>নতুন টুইট ক্রিয়েট করুন</f7-card-header>
+            <f7-card-header>{{ pageTitle }}</f7-card-header>
             <f7-card-content>
                 <f7-list>
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
@@ -64,11 +64,13 @@
         },
         data() {
             return {
+                pageTitle: '',
                 form: {
                     title: '',
                     image: '',
                     description: ''
                 },
+                editId: null,
                 errors: {
                     title: [],
                     description: [],
@@ -80,6 +82,23 @@
             };
         },
         mounted() {
+            let tweetId = this.$route.params.id;
+            if (tweetId === undefined) {
+                this.pageTitle = 'নতুন টুইট ক্রিয়েট করুন';
+            } else {
+                this.pageTitle = 'টুইট আপডেট করুন';
+                tweetId = parseInt(this.$route.params.id);
+                let tweets = localStorage.getItem('tweets');
+                if (tweets !== null) {
+                    let tweet = JSON.parse(tweets).find(tweet => tweet.id === tweetId);
+                    this.form = {
+                        title: tweet.title,
+                        image: tweet.image,
+                        description: tweet.description
+                    };
+                    this.editId = tweet.id;
+                }
+            }
         },
         computed: {
             isSubmitEnabled() {
@@ -168,23 +187,27 @@
                 this.offline = false;
                 if (this.checkValidation()) {
                     this.$f7.preloader.show();
-                    const vm = this;
-                    const url = 'account/save-tweet';
-                    this.$http.post(url, this.form)
+                    let url = 'account/save-tweet';
+                    let $method = this.$http.post;
+                    if (this.editId !== null) {
+                        url = '/account/update-tweet/' + this.editId;
+                        $method = this.$http.patch;
+                    }
+                    $method(url, this.form)
                         .then(() => {
-                            vm.$f7.preloader.hide();
+                            this.$f7.preloader.hide();
                             let obj = {
                                 title: "Success!",
                                 text: "Successfully Saved."
                             };
-                            vm.$utils.showMessage(obj, vm);
-                            vm.$ls.remove('tweets');
-                            vm.$router.push({name: '/tweets'});
+                            this.$utils.showMessage(obj, this);
+                            this.$ls.remove('tweets');
+                            this.$router.push('/tweets');
                         })
                         .catch(error => {
-                            vm.offline = vm.$utils.errorHandle(error, vm).offline;
-                            vm.serverVErrors = vm.$utils.errorHandle(error, vm).vErrors;
-                            vm.$f7.preloader.hide();
+                            this.offline = this.$utils.errorHandle(error, this).offline;
+                            this.serverVErrors = this.$utils.errorHandle(error, this).vErrors;
+                            this.$f7.preloader.hide();
                         })
                 }
 

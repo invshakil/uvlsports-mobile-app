@@ -9,7 +9,7 @@ import LoginPage from './views/login.vue';
 import ArticleDetails from './views/posts/_id/index.vue';
 import TweetsPage from './views/tweets/index.vue';
 import Dashboard from './views/account/dashboard/index';
-import CreateTweet from './views/account/tweet/create';
+import TweetForm from './views/account/tweet/form';
 
 
 Vue.use(VueRouter)
@@ -48,12 +48,20 @@ const routes = [
     {
         path: '/account/create-tweet',
         name: 'createTweet',
-        component: CreateTweet,
+        component: TweetForm,
+        meta: {auth: true}
+    },
+    {
+        path: '/account/update-tweet/:id',
+        name: 'updateTweet',
+        component: TweetForm,
+        meta: {auth: true}
     },
     {
         path: '/account/home',
         name: 'userDashboard',
         component: Dashboard,
+        meta: {auth: true}
 
     },
 
