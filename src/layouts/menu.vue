@@ -63,7 +63,7 @@
                 let lCategories = [];
                 let sCategories = [];
 
-                this.$store.state.categories.forEach(item => (item.is_league === 1) ? lCategories.push(item) : sCategories.push(item));
+                this.$store.state.categories.forEach(item => (parseInt(item.is_league) === 1) ? lCategories.push(item) : sCategories.push(item));
 
                 return routes.filter(route => {
                     // Attaching subs menu for two different type category

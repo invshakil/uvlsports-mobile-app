@@ -2,7 +2,7 @@
     <div scrollable>
         <f7-card class="demo-card-header-pic">
             <f7-card-header class="no-border" valign="bottom">
-                <img @click="visitArticlePage" :src="data.medium_image"/>
+                <img @click="visitArticlePage" :src="data.full_image"/>
             </f7-card-header>
             <f7-card-content>
                 <b class="title" @click="visitArticlePage">{{ data.title }}</b>

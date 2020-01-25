@@ -8,10 +8,7 @@
 
     <f7-card class="demo-card-header-pic">
       <f7-card-header class="no-border" valign="bottom">
-        <img
-          :src="data.full_image"
-          style="width: 100%; max-height: auto !important; margin: 0 auto;"
-        />
+        <img :src="data.full_image" class="card-header-img"/>
       </f7-card-header>
       <f7-card-content>
         <b class="title">{{ data.title }}</b>
@@ -83,8 +80,3 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-  .card-header img{
-    max-height: 300px!important;
-  }
-</style>

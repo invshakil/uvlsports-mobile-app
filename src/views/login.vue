@@ -27,7 +27,8 @@
                             @change="checkValidation('password')"
                     />
 
-                    <f7-button fill color="red" @click="login" style="width: 100px; margin: 0 auto;">লগিন করুন
+                    <f7-button :disabled="!isSubmitEnabled" fill color="red" @click="login" style="width: 100px; margin: 0 auto;">
+                        লগিন করুন
                     </f7-button>
                     <!--                    <f7-block-footer>আপনি আমাদের অ্যাপ্লিকেশনটি ব্যবহার করার সময় আমরা সরাসরি আমাদের সরবরাহ করা তথ্য সংগ্রহ করি.</f7-block-footer>-->
                 </f7-list>
@@ -61,7 +62,11 @@
                 offline: false
             };
         },
-        mounted() {
+        computed: {
+            isSubmitEnabled() {
+                return this.email !== '' && this.password !== '' &&
+                    this.errors.email.length === 0 && this.errors.password.length === 0;
+            }
         },
         methods: {
             signIn() {
