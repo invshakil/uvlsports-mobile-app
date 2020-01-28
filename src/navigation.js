@@ -44,6 +44,18 @@ const routes = [
                 url: '/account/create-tweet',
                 isTweetCreate: true
             },
+            {
+                name: 'Create Article',
+                banglaName: 'নতুন লেখা সাবমিট করুন',
+                icon: 'add',
+                url: '/account/create-article',
+            },
+            {
+                name: 'My Articles',
+                banglaName: 'আপনার লেখাসমূহ',
+                icon: 'list',
+                url: '/account/my-articles',
+            },
         ]
     },
 ]
