@@ -56,3 +56,61 @@
   height: 20px;
   padding-top: 5px;
 }
+
+.about-us {
+  &.card {
+    background: #c6ffd0;
+    background-image: linear-gradient(315deg, #c6b8ff 0%, #c6ffd0 74%) !important;
+
+    .card-header {
+      color: #1a203a;
+      font-weight: 800 !important;
+      font-size: 20px;
+
+    }
+
+    .card-content {
+      color: #ffffff !important;
+    }
+
+    img {
+      max-width: 100% !important;
+      max-height: 225px !important;
+      height: auto !important;
+      width: auto !important;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}
+
+.team-members {
+  .card-header {
+    width: auto !important;
+    height: 250px !important;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    padding: 0 !important;
+
+    span {
+      position: absolute;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      //padding: 3px 8px;
+      width: 100%;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  }
+
+  .card-content-padding {
+    padding-top: 5px !important;
+
+    .icon-group {
+      text-align: center;
+    }
+  }
+
+}

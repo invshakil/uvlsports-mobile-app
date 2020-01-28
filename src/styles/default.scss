@@ -64,6 +64,7 @@ a.footer {
     margin: 0 auto !important;
     width: auto !important;
     max-height: 190px !important;
+    max-width: 100%;
   }
 
 }
@@ -159,6 +160,7 @@ body {
   margin-left: 22px !important;
   height: 40px;
   font-size: 30px;
+  padding-top: 3px;
 }
 
 .login-screen-content .list ul {
@@ -184,6 +186,7 @@ body {
     -webkit-text-fill-color: transparent;
     font-weight: bolder;
     font-size: 16px;
+    padding-top: 5px !important;
   }
 
   .date {

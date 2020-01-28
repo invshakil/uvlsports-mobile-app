@@ -4,6 +4,10 @@ import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
 import NotFoundPage from './views/pages/not-found.vue';
 import HomePage from './views/home.vue';
+import AboutUs from './views/pages/about-us.vue';
+import TeamMembers from './views/pages/team-members.vue';
+import Contact from './views/pages/contact.vue';
+import TvSchedule from './views/pages/tv-schedule.vue';
 import ArticlePage from './views/pages/category';
 import LoginPage from './views/login.vue';
 import ArticleDetails from './views/posts/_id/index.vue';
@@ -34,6 +38,26 @@ const routes = [
         path: '/tweets',
         name: 'tweets',
         component: TweetsPage,
+    },
+    {
+        path: '/about-us',
+        name: 'aboutUs',
+        component: AboutUs,
+    },
+    {
+        path: '/our-team',
+        name: 'teamMembers',
+        component: TeamMembers,
+    },
+    {
+        path: '/contact',
+        name: 'contact',
+        component: Contact,
+    },
+    {
+        path: '/tv-schedule',
+        name: 'tvSchedule',
+        component: TvSchedule,
     },
     {
         path: '/login',
@@ -67,8 +91,8 @@ const routes = [
 
 ]
 
-// axios.defaults.baseURL = 'http://localhost:8000/api';
-axios.defaults.baseURL = 'http://uvlsports.com/api';
+axios.defaults.baseURL = 'http://localhost:8000/api';
+// axios.defaults.baseURL = 'http://uvlsports.com/api';
 
 Vue.config.productionTip = false
 

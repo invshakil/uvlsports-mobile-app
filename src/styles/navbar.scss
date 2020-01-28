@@ -1,6 +1,6 @@
 .bm-menu {
-  background-color: #f44336;
-  background-image: linear-gradient(315deg, #9e9e9e 0%, #f44336 74%);
+  background-color: #f12861;
+  background-image: linear-gradient(to bottom, #fdef62 5%, #f12861 20%, #bc84bf 95%);
   padding-top: 0 !important;
   //top: auto;
 
@@ -29,6 +29,8 @@
       list-style: none;
       margin: 0;
       padding: 0 !important;
+      max-height: calc(100vh - 150px);
+      overflow-x: auto;
 
       li.main-menu {
         //margin: 0 -10px 0 -10px;

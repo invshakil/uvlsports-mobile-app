@@ -32,6 +32,7 @@ module.exports = {
     },
 
     pluginOptions: {
-      cordovaPath: 'cordova'
-    }
+      cordovaPath: 'src-cordova'
+    },
+    lintOnSave: false
 }

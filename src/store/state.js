@@ -1,5 +1,5 @@
 const state = {
-    systemName: 'UVLSPORTS',
+    systemName: 'ইউভিএল স্পোর্টস',
     systemLogo: 'http://uvlsports.com/image_upload/system_logo.png',
     userInfo: getUserInfo(),
     windowWidth: null,
