@@ -15,7 +15,7 @@ const routes = [
         subs: []
     },
     {name: 'Tweets', banglaName: 'টুইট সমূহ', icon: 'book', url: '/tweets', subs: []},
-    //ভিতে সরাসরি সম্প্রচারিত খেলার সূচী
+
     {name: 'Tv_Schedules', banglaName: 'খেলার সময় সূচী', icon: 'book', url: '/tv-schedule', subs: []},
     {
         name: 'About_Us',

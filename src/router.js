@@ -50,7 +50,7 @@ const routes = [
         component: TeamMembers,
     },
     {
-        path: '/contact',
+        path: '/contact-us',
         name: 'contact',
         component: Contact,
     },
