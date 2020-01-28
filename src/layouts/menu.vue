@@ -12,7 +12,7 @@
                     {{ route.banglaName }}
                     <f7-icon
                             v-if="route.showArrowIcon"
-                            :f7="isActive && activeRoute === route.name ? 'arrowtriangle_down' : 'arrowtriangle_right'"
+                            :f7="isActive && activeRoute === route.name ? 'chevron_down' : 'chevron_right'"
                             class="has-sub-arrow-icon" color="white"/>
                 </a>
 

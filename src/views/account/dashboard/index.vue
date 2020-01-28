@@ -9,7 +9,7 @@
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
                 </f7-list>
 
-                <img :src="this.$store.state.userInfo.image" :alt="this.$store.state.userInfo.name" class="profile-picture"/>
+                <img :src="this.$store.state.userInfo.user_avatar" :alt="this.$store.state.userInfo.name" class="profile-picture"/>
 
                 <f7-list>
                     <f7-list-item>
