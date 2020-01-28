@@ -3,7 +3,7 @@
         <f7-navbar title="যোগাযোগ করুন" back-link="Back"/>
 
         <f7-card class="form-design">
-            <f7-card-header>যোগাযোগ করুন</f7-card-header>
+            <f7-card-header> মতামত জানান</f7-card-header>
             <f7-card-content>
                 <f7-list>
                     <validation-error-display :errors="errors" :server_errors="serverVErrors"/>
@@ -30,7 +30,7 @@
                     <f7-list-input
                             label="বিষয়"
                             type="text"
-                            placeholder="Type..."
+                            placeholder="লিখুন..."
                             :value="form.subject"
                             @input="form.subject = $event.target.value"
                             :class="{'has-error': errors.subject.length > 0}"
