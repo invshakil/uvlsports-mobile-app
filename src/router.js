@@ -15,6 +15,7 @@ import TweetsPage from './views/tweets/index.vue';
 import Dashboard from './views/account/dashboard/index';
 import TweetForm from './views/account/tweet/form';
 import ArticleForm from './views/account/article/form';
+import ArticleList from './views/account/article/index';
 
 
 Vue.use(VueRouter)
@@ -93,6 +94,18 @@ const routes = [
         path: '/account/create-article',
         name: 'createArticle',
         component: ArticleForm,
+        meta: {auth: true}
+    },
+    {
+        path: '/account/update-article/:id',
+        name: 'updateArticle',
+        component: ArticleForm,
+        meta: {auth: true}
+    },
+    {
+        path: '/account/my-articles',
+        name: 'myArticles',
+        component: ArticleList,
         meta: {auth: true}
     },
 

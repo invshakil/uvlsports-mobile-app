@@ -224,7 +224,7 @@
                             };
                             this.$utils.showMessage(obj, this);
                             this.$ls.remove('myArticles');
-                            this.$router.push('/my-articles');
+                            this.$router.push('/account/my-articles');
                         })
                         .catch(error => {
                             this.offline = this.$utils.errorHandle(error, this).offline;
