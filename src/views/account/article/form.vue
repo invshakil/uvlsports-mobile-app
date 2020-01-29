@@ -126,16 +126,7 @@
             } else {
                 this.pageTitle = 'লেখা আপডেট করুন';
                 articalId = parseInt(this.$route.params.id);
-                let articles = localStorage.getItem('myArticles');
-                if (articles !== null) {
-                    let article = JSON.parse(articles).find(article => article.id === articalId);
-                    this.form = {
-                        title: article.title,
-                        category_id: article.category_id,
-                        description: article.description
-                    };
-                    this.editId = article.id;
-                }
+                this.fetchArticle(articalId)
             }
         },
         computed: {
@@ -145,6 +136,22 @@
             }
         },
         methods: {
+            fetchArticle(articleId) {
+                this.$http.post('account/get-article-details', {id: articleId})
+                    .then(response => {
+                        this.editId = articleId;
+                        this.form = {
+                            title: response.data.title,
+                            category_id: response.data.category_id,
+                            description: response.data.description,
+                        }
+                    })
+                    .catch(error => {
+                        this.offline = this.$utils.errorHandle(error, this).offline;
+                        this.serverVErrors = this.$utils.errorHandle(error, this).vErrors;
+                        this.$f7.preloader.hide();
+                    })
+            },
             checkValidation(input = false) {
                 if (input === "title" || !input) {
                     if (this.form.title === '') {
@@ -201,7 +208,7 @@
             },
             pasteEventHandler(event) {
                 var data = event.clipboardData.getData('text/plain');
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.form.description = data;
                 }, 100)
             },
