@@ -30,7 +30,7 @@
     "framework7-icons": "^3.0.1",
     "framework7-vue": "^3.4.3",
     "material-design-icons": "^3.0.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "serialize-javascript": "^5.0.1",
     "vue": "^2.6.12",
     "vue-burger-menu": "^2.0.5",
